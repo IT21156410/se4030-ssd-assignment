@@ -49,6 +49,14 @@ function generateRandomPassword(): string
     return implode($pass);
 }
 
+/**
+ * @throws RandomException
+ */
+function userName(): int
+{
+    return random_int(1000000, 9999999);
+}
+
 function sendEMail($subject, $html, #[\SensitiveParameter] $email, $name = '', $reply = false): bool
 {
 

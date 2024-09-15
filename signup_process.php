@@ -4,10 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 include('config.php');
+include('services/login-service.php');
 
 /** @var mysqli $conn */
-
-use Random\RandomException;
 
 require_once "vendor/autoload.php";
 
@@ -82,46 +81,22 @@ if (!isset($_POST['signup_btn'])) {
 
     $stmt->prepare($insert_query);
 
-    if ($stmt->execute()) {
-        $data_select = "SELECT User_ID,FULL_NAME,USER_NAME,USER_TYPE,EMAIL,IMAGE,FACEBOOK,WHATSAPP,BIO,FALLOWERS,FALLOWING,POSTS FROM users WHERE USER_NAME = '$user_name';";
-        $stmt = $conn->prepare($data_select);
-        $stmt->execute();
-        $stmt->bind_result($User_ID, $full_name, $user_name, $user_type, $email_address, $image, $facebook, $whatsapp, $bio, $followers, $fallowing, $post_count);
-        $stmt->fetch();
-
-        $_SESSION['id'] = $User_ID;
-        $_SESSION['username'] = $user_name;
-        $_SESSION['fullname'] = $full_name;
-        $_SESSION['email'] = $email_address;
-        $_SESSION['usertype'] = $user_type;
-        $_SESSION['facebook'] = $facebook;
-        $_SESSION['whatsapp'] = $whatsapp;
-        $_SESSION['bio'] = $bio;
-        $_SESSION['fallowers'] = $followers;
-        $_SESSION['fallowing'] = $fallowing;
-        $_SESSION['postcount'] = $post_count;
-        $_SESSION['img_path'] = $image;
-        $_SESSION['temp_password'] = $password;
-
-        //header("location: WelCome.php");
-        mailer($email_address, $user_name, $full_name);
-
-        setFlashMessage('error', 'Account created successfully!.');
-        header("location: home.php");
-    } else {
+    if (!$stmt->execute()) {
         setFlashMessage('error', 'Something went wrong.');
         header('Location: create-account.php');
         exit;
     }
 
-}
+    if (!authenticateUser($email_address, isSignupOrSocialLogin: true)) {
+        header('Location: create-account.php');
+        exit;
+    }
 
-/**
- * @throws RandomException
- */
-function userName(): int
-{
-    return random_int(1000000, 9999999);
+    //header("location: WelCome.php");
+    mailer($email_address, $user_name, $full_name);
+
+    setFlashMessage('success', 'Account created successfully!.');
+    header("location: home.php");
 }
 
 

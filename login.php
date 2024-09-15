@@ -1,10 +1,9 @@
 <?php
 
-session_start();
+include_once __DIR__ . '/includes/helper.php';
 
 if (isset($_SESSION['id'])) {
     header('location: index.php');
-
     exit;
 }
 
@@ -65,13 +64,17 @@ if (isset($_SESSION['id'])) {
                                             <br><br>
 
                                             <h5 class="fw-normal mb-3 pb-3" style="text-transform: uppercase; color: grey;"><b>Sign in with your sltc id</b></h5>
+                                            <?php if (hasFlashMessage('error')): ?>
+                                                <p id="error_message" class="text-center alert-danger">
+                                                    <?php echo getFlashMessage('error'); ?>
+                                                </p>
+                                            <?php endif; ?>
 
-
-                                            <?php if (isset($_GET['error_message'])) { ?>
-
-                                                <p id="error_message" class="text-center alert-danger"><?php echo $_GET['error_message']; ?></p>
-
-                                            <?php } ?>
+                                            <?php if (hasFlashMessage('success')): ?>
+                                                <p id="success_message" class="text-center alert-success">
+                                                    <?php echo getFlashMessage('success'); ?>
+                                                </p>
+                                            <?php endif; ?>
 
                                             <div class="form-outline mb-4">
                                                 <input type="text" id="form2Example17" class="form-control form-control-lg" name="email"/>
@@ -89,9 +92,17 @@ if (isset($_SESSION['id'])) {
 
                                             <a class="small text-muted" href="Reset-Password.php">Forgot password?</a>
 
-                                            <p class="mb-5 pb-lg-2" style="color: #19afd4;">Don't have an account?
+                                            <p class="mb-2 pb-lg-2" style="color: #19afd4;">Don't have an account?
                                                 <a href="create-account.php" style="color: #2696ca;">Register here</a>
                                             </p>
+                                            <hr>
+                                            <div class="text-center mb-1">OR</div>
+                                            <div class="d-flex justify-content-center mb-4">
+                                                <a type="button" href="services/google-service.php" class="bg-white border btn-rounded px-4 py-2 text-dark">
+                                                    <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" class="me-2" alt="google" style="width: 24px;">
+                                                    Log In With Google
+                                                </a>
+                                            </div>
 
                                             <a href="#!" class="small text-muted">Terms of use.</a>
 
