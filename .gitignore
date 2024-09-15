@@ -1,6 +1,6 @@
-
-config.php
-configure.php
-config.php
+/vendor
 *.jpg
 *.mp4
+.env
+/.idea
+/.vscode

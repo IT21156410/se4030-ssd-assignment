@@ -1,20 +1,20 @@
 <?php
 
-$user = '#your database username';
+require_once __DIR__ . '/vendor/autoload.php';
 
-$password = '#password';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-$db = '#database_name';
+$DB_HOST = $_ENV['DB_HOST'];
+$DB_USERNAME = $_ENV['DB_USERNAME'];
+$DB_PASSWORD = $_ENV['DB_PASSWORD'];
+$DB_DATABASE = $_ENV['DB_DATABASE'];
+$DB_PORT = $_ENV['DB_PORT'];
 
-$host = '#host_address';
+$conn = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DATABASE, $DB_PORT);
 
-$port = #port_number;
-
-$conn = mysqli_connect($host, $user, $password, $db,$port) ;
-
-if (!$conn)
-{
-echo "Failed to connect to MySQL: " . mysqli_connect_error();
+if (!$conn) {
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-?>
+
