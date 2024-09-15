@@ -55,63 +55,12 @@ if(isset($_POST['reset-pass']))
 
 function randomPassword()
 {
-    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-
-    $pass = array();
-
-    $alphaLength = strlen($alphabet) - 1;
-
-    for ($i = 0; $i < 8; $i++)
-    {
-        $n = rand(0, $alphaLength);
-
-        $pass[] = $alphabet[$n];
-    }
-
-    return implode($pass);
+    return generateRandomPassword();
 }
 
 function mailer($sending_address, $password, $full_name)
 {
-    $mail = new PHPMailer(true);
-
-    //Enable SMTP debugging.
-
-    $mail->SMTPDebug = 3;
-
-    //Set PHPMailer to use SMTP.
-
-    $mail->isSMTP();
-
-    //Set SMTP host name
-
-    $mail->Host = "smtp.gmail.com";
-
-    //Set this to true if SMTP host requires authentication to send email
-
-    $mail->SMTPAuth = true;
-
-    //Provide username and password
-
-    $mail->Username = "deshanja@sltc.ac.lk";
-
-    $mail->Password = "cweorfeorufthkbf";
-
-    //If SMTP requires TLS encryption then set it
-
-    $mail->SMTPSecure = "tls";
-
-    //Set TCP port to connect to
-
-    $mail->Port = 587;
-
-    $mail->From = "dj.amarasinghe.dev@gmail.com";
-
-    $mail->FromName = $full_name;
-
-    $mail->addAddress($sending_address, $full_name);
-
-    $mail->isHTML(true);
+    $mail = sendEmail($full_name, $sending_address);
 
     $mail->Subject = "Change Account Password";
 

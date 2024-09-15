@@ -1,232 +1,138 @@
-
 <?php
-
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 include('config.php');
 
-use PHPMailer\PHPMailer\PHPMailer;
+/** @var mysqli $conn */
 
-use PHPMailer\PHPMailer\SMTP;
-
-use PHPMailer\PHPMailer\Exception;
+use Random\RandomException;
 
 require_once "vendor/autoload.php";
 
-if(isset($_POST['signup_btn']))
-{
-    $email_address= $_POST['email'];
+if (!isset($_POST['signup_btn'])) {
+    setFlashMessage('error', 'Action not allowed');
+    header('Location: create-account.php');
+} else {
+    $email_address = trim($_POST['email']);
+    $full_name = trim($_POST['full_name']);
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
 
-    $full_name = full_name($email_address);
+    $errors = [];
 
-    $user_name= userName();
-
-    $user_type = "1";
-
-    $facebook = "www.facebook.com";
-
-    $whatsapp = "www.webwhatsapp.com";
-
-    $bio = "tell use more about you";
-
-    $fallowers = 0;
-
-    $fallowing = 0;
-
-    $post_count = 0;
-
-    $image = "default.png";
-
-    $password= randomPassword();
-
-    $domain_validation = 0;
-
-    $domain_validation = domain_validator($email_address);
-
-    // domain validation
-
-    if(!$domain_validation == 0)
-    {
-        // user availibility check in the system
-        
-        $sql_query = "SELECT User_ID FROM USERS WHERE EMAIL = '$email_address';";
-    
-        $stmt = $conn->prepare($sql_query);
-    
-        $stmt->execute();
-    
-        $stmt->store_result();
-
-        if($stmt->num_rows() > 0)
-        {    
-            header('location: create-account.php?error_message=Your Email  Account already register on System');
-    
-            exit;
-        }
-        else
-        {
-            $encrypted_password = md5($password);
-
-        $insert_query = "INSERT INTO users (FULL_NAME,USER_NAME,USER_TYPE,PASSWORD_S,EMAIL,IMAGE,FACEBOOK,WHATSAPP,BIO,FALLOWERS,FALLOWING,POSTS) VALUES
-        
-        ('$full_name', '$user_name', '$user_type', '$encrypted_password', '$email_address', '$image', '$facebook', '$whatsapp', '$bio', $fallowers, $fallowing, $post_count);";
-
-        $stmt->prepare($insert_query);
-
-        if($stmt->execute())
-        {
-            $data_select = "SELECT FULL_NAME,USER_NAME,USER_TYPE,EMAIL,IMAGE,FACEBOOK,WHATSAPP,BIO,FALLOWERS,FALLOWING,POSTS FROM users WHERE USER_NAME = '$user_name';";
-
-            $stmt = $conn->prepare($data_select);
-
-            $stmt->execute();
-
-            $stmt->bind_result($full_name, $user_name, $user_type, $email_address, $image, $facebook, $whatsapp, $bio, $fallowers, $fallowing, $post_count);
-
-            $stmt->fetch();
-
-            //$_SESSION['id'] = $User_ID;
-
-            $_SESSION['username'] = $user_name;
-
-            $_SESSION['fullname'] = $full_name;
-
-            $_SESSION['email'] = $email_address;
-
-            $_SESSION['usertype'] = $user_type;
-
-            $_SESSION['facebook'] = $facebook;
-
-            $_SESSION['whatsapp'] = $whatsapp;
-
-            $_SESSION['bio'] = $bio;
-
-            $_SESSION['fallowers'] = $fallowers;
-
-            $_SESSION['fallowing'] = $fallowing;
-
-            $_SESSION['postcount'] = $post_count;
-
-            $_SESSION['img_path'] = $image;
-
-            $_SESSION['temp_password'] = $password;
-
-            header("location: WelCome.php");
-
-            mailer($email_address, $password, $user_name, $full_name);
-
-        }else{
-
-            header("location: create-account.php?error_message=error occurred #008");
-
-            exit;
-        }       
-      }
+    if (empty($full_name) || !preg_match("/^[a-zA-Z ]*$/", $full_name)) {
+        $errors[] = "Full name is required and can only contain letters and spaces.";
     }
-    else
-    {
-        header("location: create-account.php?error_message=This system does not support external email addresses. Please use the SLTC Mail address that was provided to you");
 
+    if (empty($email_address) || !filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "A valid email address is required.";
+    }
+
+    if (empty($password) || strlen($password) < 8) {
+        $errors[] = "Password must be at least 8 characters long.";
+    }
+
+    if ($password !== $confirm_password) {
+        $errors[] = "Password and Confirm Password must match.";
+    }
+
+    // Check if there are validation errors
+    if (!empty($errors)) {
+        // Set error messages in the session
+        setFlashMessage('error', implode("<br>", $errors));
+        header('Location: create-account.php');
         exit;
     }
-}else
-{
-    header("location: create-account.php?error_message=error occurred #009");
 
-    exit;
-}
+    $User_ID = null;
+    $user_name = userName();
+    $user_type = "1";
+    $facebook = null;
+    $whatsapp = null;
+    $bio = null;
+    $followers = 0;
+    $fallowing = 0;
+    $post_count = 0;
+    $image = "default.png";
+    $password = generateRandomPassword();
 
-function userName()
-{
-    return rand();
-}
+    // user availability check in the system
 
-function full_name($email)
-{   
-    $username = strstr($email, '@', true);
-    
-    return $username;
-}
+    $sql_query = "SELECT User_ID FROM USERS WHERE EMAIL = ?;";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param("s", $email_address);
 
-function randomPassword() 
-{
-    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    $stmt->execute();
 
-    $pass = array();
+    $stmt->store_result();
 
-    $alphaLength = strlen($alphabet) - 1; 
-
-    for ($i = 0; $i < 8; $i++) 
-    {
-        $n = rand(0, $alphaLength);
-    
-        $pass[] = $alphabet[$n];
+    if ($stmt->num_rows() > 0) {
+        setFlashMessage('error', 'Your Email Account is already registered on the system.');
+        header('Location: create-account.php');
+        exit;
     }
 
-    return implode($pass);
-}
+    $encrypted_password = md5($password);
 
-function domain_validator($email)
-{    
-    $acceptedDomains = array('sltc.ac.lk', 'sltc.lk');
+    $insert_query = "INSERT INTO users (FULL_NAME,USER_NAME,USER_TYPE,PASSWORD_S,EMAIL,IMAGE,FACEBOOK,WHATSAPP,BIO,FALLOWERS,FALLOWING,POSTS) VALUES
     
-    if(in_array(substr($email, strrpos($email, '@') + 1), $acceptedDomains))
-    {
-        return 1;
+    ('$full_name', '$user_name', '$user_type', '$encrypted_password', '$email_address', '$image', '$facebook', '$whatsapp', '$bio', $followers, $fallowing, $post_count);";
+
+    $stmt->prepare($insert_query);
+
+    if ($stmt->execute()) {
+        $data_select = "SELECT User_ID,FULL_NAME,USER_NAME,USER_TYPE,EMAIL,IMAGE,FACEBOOK,WHATSAPP,BIO,FALLOWERS,FALLOWING,POSTS FROM users WHERE USER_NAME = '$user_name';";
+        $stmt = $conn->prepare($data_select);
+        $stmt->execute();
+        $stmt->bind_result($User_ID, $full_name, $user_name, $user_type, $email_address, $image, $facebook, $whatsapp, $bio, $followers, $fallowing, $post_count);
+        $stmt->fetch();
+
+        $_SESSION['id'] = $User_ID;
+        $_SESSION['username'] = $user_name;
+        $_SESSION['fullname'] = $full_name;
+        $_SESSION['email'] = $email_address;
+        $_SESSION['usertype'] = $user_type;
+        $_SESSION['facebook'] = $facebook;
+        $_SESSION['whatsapp'] = $whatsapp;
+        $_SESSION['bio'] = $bio;
+        $_SESSION['fallowers'] = $followers;
+        $_SESSION['fallowing'] = $fallowing;
+        $_SESSION['postcount'] = $post_count;
+        $_SESSION['img_path'] = $image;
+        $_SESSION['temp_password'] = $password;
+
+        //header("location: WelCome.php");
+        mailer($email_address, $user_name, $full_name);
+
+        setFlashMessage('error', 'Successful Registration!.');
+        header("location: home.php");
+    } else {
+        setFlashMessage('error', 'Something went wrong.');
+        header('Location: create-account.php');
+        exit;
     }
-    else
-    {
-        return 0;
-    }
+
 }
 
-function mailer($sending_address, $password, $user_name, $full_name)
+/**
+ * @throws RandomException
+ */
+function userName(): int
 {
-    $mail = new PHPMailer(true);
-    
-    //Enable SMTP debugging.
-    
-    $mail->SMTPDebug = 3;                               
-    
-    //Set PHPMailer to use SMTP.
-    
-    $mail->isSMTP();            
-    
-    //Set SMTP host name                          
-    
-    $mail->Host = "smtp.gmail.com";
-    
-    //Set this to true if SMTP host requires authentication to send email
-    
-    $mail->SMTPAuth = true;                          
+    return random_int(1000000, 9999999);
+}
 
-    //Provide username and password     
 
-    $mail->Username = "deshanja@sltc.ac.lk";                 
+function mailer(#[\SensitiveParameter] $email, $user_name, #[\SensitiveParameter] $name): void
+{
 
-    $mail->Password = "cweorfeorufthkbf";                           
+    $Subject = "New User Registration";
 
-    //If SMTP requires TLS encryption then set it
+    $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-    $mail->SMTPSecure = "tls";                           
-
-    //Set TCP port to connect to
-
-    $mail->Port = 587;                                   
-
-    $mail->From = "dj.amarasinghe.dev@gmail.com";
-
-    $mail->FromName = $full_name;
-
-    $mail->addAddress($sending_address, $full_name);
-
-    $mail->isHTML(true);
-
-    $mail->Subject = "New User Registration";
-
-    $mail->Body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-    <html xmlns:v="urn:schemas-microsoft-com:vml">
+    <html >
     
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -464,9 +370,9 @@ function mailer($sending_address, $password, $user_name, $full_name)
     
                                             Great news: you will now be among the first to learn about unique university events. Thank you for becoming a member of our community. Please use the following information to access your account; please change your password and details before using your account.
     
-                                            <br><br>Name of the user :'. $user_name . '<br><br>Password : ' .$password.
-    
-                                             '
+                                            <br><br>Email: ' . $email . '<br>
+                                            <br><br>Full Name: ' . $name . '<br>
+                                            <br><br>Username: ' . $user_name . '<br>
     
                                             <br><br>You can access your account at any time by clicking on the link below.
                                             </div>
@@ -552,7 +458,7 @@ function mailer($sending_address, $password, $user_name, $full_name)
                                         <td align="left" style="color: #888888; font-size: 14px; font-family: , Calibri, sans-serif; line-height: 23px;" class="text_color">
                                             <div style="color: #333333; font-size: 14px; font-family:  Calibri, sans-serif; font-weight: 600; mso-line-height-rule: exactly; line-height: 23px;">
     
-                                                Email us: <br/> <a href="mailto:" style="color: #888888; font-size: 14px; font-family: , Calibri, Sans-serif; font-weight: 400;">djayashanka750@gmail.com</a>
+                                                Email us: <br/> <a href="mailto:" style="color: #888888; font-size: 14px; font-family: , Calibri, Sans-serif; font-weight: 400;">eventwave@gmail.com</a>
     
                                             </div>
                                         </td>
@@ -598,19 +504,6 @@ function mailer($sending_address, $password, $user_name, $full_name)
     
     </html>';
 
-    $mail->AltBody = "This is the plain text version of the email content";
-    
-    try 
-    {
-        $mail->send();
-
-        echo "Message has been sent successfully";
-
-    } 
-    catch (Exception $e)
-    {
-        echo "Mailer Error: " . $mail->ErrorInfo;
-    }
+    sendEMail($Subject, $html, $email, $name);
 }
 
-?>
