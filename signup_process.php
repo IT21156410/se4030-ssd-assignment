@@ -106,7 +106,7 @@ if (!isset($_POST['signup_btn'])) {
         //header("location: WelCome.php");
         mailer($email_address, $user_name, $full_name);
 
-        setFlashMessage('error', 'Successful Registration!.');
+        setFlashMessage('error', 'Account created successfully!.');
         header("location: home.php");
     } else {
         setFlashMessage('error', 'Something went wrong.');
