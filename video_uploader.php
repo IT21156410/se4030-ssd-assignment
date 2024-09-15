@@ -4,26 +4,23 @@ require 'init.php';
 
 session_regenerate_id(true);
 
-$function_out = strcmp($_SESSION['usertype'], '1');
+//$function_out = strcmp($_SESSION['usertype'], '1');
 
-if(!isset($_SESSION['id']))
-{
+if (!isset($_SESSION['id'])) {
     header('location: login.php');
-
     exit;
 }
-else
-{
-    if($function_out == 0)
-    {
-        header("location: home.php");
-    }
-}
+//else
+//{
+//    if($function_out == 0)
+//    {
+//        header("location: home.php");
+//    }
+//}
 
 include('config.php');
 
-if(isset($_POST['posting']))
-{
+if (isset($_POST['posting'])) {
     $filename = $_FILES["file"]["name"];
 
     $tempname = $_FILES["file"]["tmp_name"];
@@ -33,19 +30,19 @@ if(isset($_POST['posting']))
     $thumb_temp_name = $_FILES["thumbnail"]["tmp_name"];
 
     $file_type = pathinfo($filename_thumb, PATHINFO_EXTENSION);
-  
+
     $file_extansion = pathinfo($filename, PATHINFO_EXTENSION);
-  
+
     $random_number = rand(0, 10000000);
-  
-    $file_rename = 'Vid_'.date('Ymd').$random_number;
-  
-    $file_complete = $file_rename.'.'.$file_extansion;
 
-    $thumbnail_name = 'Thumb_'.date('Ymd').$random_number;
+    $file_rename = 'Vid_' . date('Ymd') . $random_number;
 
-    $thumbnail_name_complete = $thumbnail_name.'.'.$file_type;
-  
+    $file_complete = $file_rename . '.' . $file_extansion;
+
+    $thumbnail_name = 'Thumb_' . date('Ymd') . $random_number;
+
+    $thumbnail_name_complete = $thumbnail_name . '.' . $file_type;
+
     $folder = "./assets/videos/" . $file_complete;
 
     $second_file = "./assets/videos/" . $thumbnail_name_complete;
@@ -54,8 +51,8 @@ if(isset($_POST['posting']))
 
     $caption = $_POST['caption'];
 
-    $hashtags= $_POST['hash-tags'];
-     
+    $hashtags = $_POST['hash-tags'];
+
     $likes = 0;
 
     $date = date("Y-m-d");
@@ -66,8 +63,7 @@ if(isset($_POST['posting']))
 
     $stmt = $conn->prepare($sql_query);
 
-    if($stmt->execute())
-    {
+    if ($stmt->execute()) {
         move_uploaded_file($tempname, $folder);
 
         move_uploaded_file($thumb_temp_name, $second_file);
@@ -75,16 +71,12 @@ if(isset($_POST['posting']))
         header("location: video_upload.php?success_message=Post Successfully updated");
 
         exit;
-    }
-    else
-    {
+    } else {
         header("location: video_upload.php?error_message=Error Occurred, try again - ERROR #008");
 
         exit;
     }
-}
-else
-{
+} else {
     header("location: video_upload.php?error_message=Error Occurred, try again2 - ERROR #009");
 
     exit;
