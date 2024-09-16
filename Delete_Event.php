@@ -1,8 +1,11 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 session_start();
 
 include('config.php');
+
+validateCsrfToken(); // Validate the CSRF token
 
 if(isset($_POST['drop']))
 {
@@ -68,4 +71,3 @@ function Drop_Comments($post_id): void
 
     $stmt->execute();
 }
-
