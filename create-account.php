@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/helper.php';
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 ?>
 <!DOCTYPE html>
 
@@ -97,6 +98,8 @@ require_once __DIR__ . '/includes/helper.php';
                                                 <label class="form-label" for="confirm_password">Confirm Password</label>
 
                                             </div>
+
+                                            <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                             <div class="pt-1 mb-4 mt-2">
 
