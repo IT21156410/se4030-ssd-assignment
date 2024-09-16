@@ -29,26 +29,10 @@ header('X-Frame-Options: DENY');
  *  - Allow styles from Google Fonts for typography
  *  - Allow font files from Google Fonts' gstatic domain
  * */
-header("Content-Security-Policy: 
-    default-src 'self'; 
-    script-src 'self' https://code.jquery.com; 
-    style-src 'self' https://fonts.googleapis.com; 
-    font-src 'self' https://fonts.gstatic.com; 
-    img-src 'self' data:; 
-    object-src 'none'; 
-    base-uri 'self'; 
-    frame-ancestors 'none'; 
-    form-action 'self'; 
-    report-uri /app-csp-violation;
-    report-to default;
-");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://code.jquery.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; report-uri /app-csp-violation; report-to default;");
 
 // Add Report-To header for structured CSP violation reporting
-header("Report-To: { 
-    \"group\": \"default\", 
-    \"max_age\": 10886400, 
-    \"endpoints\": [{ \"url\": \"/app-csp-violation\" }] 
-}");
+header("Report-To: { \"group\": \"default\", \"max_age\": 10886400, \"endpoints\": [{ \"url\": \"/app-csp-violation\" }] }");
 
 /*
  * To fix the "Strict-Transport-Security Header Not Set" vulnerability,
