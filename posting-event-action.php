@@ -55,13 +55,13 @@ if(isset($_POST['posting']))
     {
         move_uploaded_file($tempname, $folder);
 
-        header("location: Events.php?success_message=Post Successfully updated");
+        header("location: events.php?success_message=Post Successfully updated");
 
         exit;
     }
     else
     {
-        header("location: Event-Upload.php?error_message=Error Occurred, DB Error");
+        header("location: event-upload.php?error_message=Error Occurred, DB Error");
 
         exit;
     }

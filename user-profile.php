@@ -135,7 +135,7 @@ else
 
     <div class="gallery">
 
-    <?php include('get_targetPosts.php')?>
+    <?php include('get-target-posts-action.php') ?>
 
     <?php foreach ($posts as $post){?>
 

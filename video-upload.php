@@ -2,9 +2,7 @@
 include_once __DIR__ . '/includes/headers.php';
 include_once __DIR__ . '/includes/csrf_token_helper.php';
 
-require 'init.php';
-
-session_regenerate_id(true);
+session_start();
 
 //$function_out = strcmp($_SESSION['usertype'], '1');
 
@@ -19,8 +17,8 @@ if (!isset($_SESSION['id'])) {
 //        header("location: home.php");
 //    }
 //}
-
 ?>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -55,7 +53,6 @@ if (!isset($_SESSION['id'])) {
         <link rel="stylesheet" href="notifast/notifast.min.css">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     </head>
 
     <body>
@@ -68,9 +65,7 @@ if (!isset($_SESSION['id'])) {
 
                 <div class="nav-items">
 
-                    <a href="home.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-home fa-lg"></i></a>
-
-                    <a href="Events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
+                    <a href="events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
 
                     <a href="shorts.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-video fa-lg"></i></a>
 
@@ -78,7 +73,7 @@ if (!isset($_SESSION['id'])) {
 
                     <div class="icon user-profile">
 
-                        <a href="my_Profile.php"><i class="fas fa-user-circle fa-lg"></i></a>
+                        <a href="my-profile.php"><i class="fas fa-user-circle fa-lg"></i></a>
 
                     </div>
 
@@ -100,77 +95,60 @@ if (!isset($_SESSION['id'])) {
 
                     <div class="mb-5">
 
-                        <form method="post" action="Posting-Event.php" enctype="multipart/form-data">
+                        <form action="video-uploader-action.php" method="POST" enctype="multipart/form-data">
 
                             <div class="form-group">
 
-                                <h1 class="profile-user-name" style="font-size: 2rem;font-weight: 300;">New Post</h1>
+                                <h1 class="profile-user-name" style="font-size: 2rem;font-weight: 300;">Publish Your Short Video</h1>
 
                             </div>
                             <br>
 
                             <div class="form-group">
 
-                                <label for="caption">What On Your Mind</label>
+                                <label for="caption">What On Your Mind :</label>
 
                                 <!--<input type="text" class="form-control" id="caption" aria-describedby="caption-area" placeholder="caption here" onchange="get_caption();" name="caption">-->
 
-                                <textarea type="text" class="form-control" id="caption" rows="4" placeholder="caption here" onchange="get_caption();" name="caption" maxlength="500" required></textarea>
+                                <textarea type="text" class="form-control mt-2" id="caption" rows="4" placeholder="caption here" onchange="get_caption();" name="caption" maxlength="500"></textarea>
 
                             </div>
                             <br>
 
                             <div class="form-group">
 
-                                <label for="tag-id">Event Date</label>
+                                <label for="tag-id">Hash Tags :</label>
 
-                                <input type="date" class="form-control" id="tag-id" aria-describedby="caption-area" placeholder="Hash Tags" onchange="get_hash();" name="event-date" required>
+                                <input type="text" class="form-control mt-2" id="tag-id" aria-describedby="caption-area" placeholder="Hash Tags" onchange="get_hash();" name="hash-tags" maxlength="50">
+
+                            </div>
+                            <br>
+
+                            <div class="form-group" id="vid-group">
+
+                                <label for="tag-id">Add video :</label>
+
+                                <input id="max_id" type="hidden" name="MAX_FILE_SIZE" value="20971520"/>
+
+                                <input class="form-control mt-2" type="file" id="file" name="file" onchange="upload_check()" accept="video/*">
 
                             </div>
                             <br>
 
                             <div class="form-group">
 
-                                <label for="tag-id">Event Time</label>
+                                <label for="tag-id">Add video Thumbnail :</label>
 
-                                <input type="time" class="form-control" aria-describedby="caption-area" placeholder="Hash Tags" onchange="get_hash();" name="event-time" required>
-
-                            </div>
-                            <br>
-
-                            <div class="form-group">
-
-                                <label for="tag-id">Invite Link</label>
-
-                                <input type="url" class="form-control" aria-describedby="caption-area" placeholder="Hash Tags" onchange="get_hash();" name="event-link" required>
+                                <input class="form-control mt-2" type="file" id="file_thumb" name="thumbnail" accept="image/png, image/gif, image/jpeg">
 
                             </div>
-                            <br>
-
-                            <div class="form-group">
-
-                                <label for="tag-id">Hash Tags</label>
-
-                                <input type="text" class="form-control" aria-describedby="caption-area" placeholder="Hash Tags" onchange="get_hash();" name="hash-tags" maxlength="50" required>
-
-                            </div>
-                            <br>
-
-                            <div class="form-group">
-
-                                <label for="tag-id">Add Media (Image Files Only Accept)</label>
-
-                                <input class="form-control" type="file" id="formFile" onchange="preview()" name="image">
-
-                            </div>
-
                             <br>
 
                             <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                             <div class="form-group">
 
-                                <button type="submit" class="btn btn-primary" name="posting">Submit</button>
+                                <input type="submit" class="btn btn-primary" name="posting" value="Publish Video">
 
                                 <button onclick="clearImage()" class="btn btn-primary">Clear Preview</button>
 
@@ -182,9 +160,10 @@ if (!isset($_SESSION['id'])) {
 
                 </div>
 
-                <div class="col sm-hidden">
+                <div class="col d-none d-lg-block">
 
                     <h1 class="profile-user-name" style="font-size: 2rem;font-weight: 300;">Preview Post</h1><br>
+
 
                     <?php if (isset($_GET['error_message'])) { ?>
 
@@ -228,13 +207,11 @@ if (!isset($_SESSION['id'])) {
 
                         </div>
 
-                        <img src="assets/images/no-photo.png" id="frame" class="post-img">
+                        <div class="ratio ratio-4x3">
 
-                        <!--<div class="ratio ratio-4x3">
+                            <iframe src="" id="frame" title="YouTube video" allowfullscreen></iframe>
 
-                          <iframe src="assets/images/no-photo.png" id="frame" title="YouTube video" allowfullscreen></iframe>
-
-                        </div>-->
+                        </div>
 
                         <div class="post-content">
 
@@ -256,18 +233,9 @@ if (!isset($_SESSION['id'])) {
 
                             <p class="post-time" id="current-date">2022/11/5</p>
 
-                            <!--<p class="description" id="caption-event">
-
-                              <span>Invitation Link : <br></span>
-
-                              <a href="sample.com" id="links">Description is a spoken or written account of a person, object, or event. It can also mean a type or class of people or things. Discription is not a word.</a>
-
-                            </p>-->
-
                             <p class="post-time" id="hash-tags" style="color: #3942e7;"><i>#hashtag #hashtags</i></p>
 
                         </div>
-
 
                     </div>
 
@@ -284,10 +252,29 @@ if (!isset($_SESSION['id'])) {
         <script src="notifast/function.js"></script>
 
         <script type="text/javascript">
+
             document.getElementById("logo-img").onclick = function () {
                 location.href = "home.php";
             };
+
+            function upload_check() {
+                const upl = document.getElementById("file");
+
+                const max = document.getElementById("max_id").value;
+
+                if (upl.files[0].size > max) {
+                    alert("File too big, Your File Must Be Under 20MB");
+
+                    upl.value = "";
+                } else {
+
+                    preview();
+                }
+            };
+
+
         </script>
+
 
     </body>
 

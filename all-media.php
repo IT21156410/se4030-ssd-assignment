@@ -1,7 +1,14 @@
 <?php
 include_once __DIR__ . '/includes/headers.php';
-include('Results_Provider.php');
-include_once __DIR__ . '/includes/csrf_token_helper.php';
+include 'media-provider-action.php';
+
+if(!isset($_SESSION['id']))
+{
+    header('location: login.php');
+
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -11,8 +18,6 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 <head>
 
     <title>EventsWave</title>
-
-    <link rel="icon" href="assets/images/event_accepted_50px.png" type="image/icon type">
 
     <meta charset="utf-8">
 
@@ -43,6 +48,21 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
     <link rel="stylesheet" href="assets/css/results.css">
 
+    <style>
+        .post-source {
+
+            width: 100%;
+
+            height: 500px;
+
+            object-fit: cover;
+
+            border-radius: 10px;
+
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -59,7 +79,7 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                 <div class="icon user-profile">
 
-                    <a href="my_Profile.php" style="text-transform: none; color: #1c1f23;"><i class="fas fa-user-circle fa-lg"></i></a>
+                    <a href="my-profile.php" style="text-transform: none; color: #1c1f23;"><i class="fas fa-user-circle fa-lg"></i></a>
 
                 </div>
 
@@ -71,44 +91,27 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
         include('config.php');
 
-        validateCsrfToken(); // Validate the CSRF token
+        $id = $_SESSION['id'];
 
+        $SQL = "SELECT * FROM posts WHERE User_ID = $id;";
 
-        if (isset($_POST['find'])) {
+        $stmt = $conn->prepare($SQL);
 
-            $search_input = $_POST['find'];
+        $stmt->execute();
 
-            $SQL = "SELECT * FROM posts WHERE Caption LIKE '%$search_input%' OR HashTags LIKE '%$search_input%';";
+        $posts = $stmt->get_result();
 
-            $stmt = $conn->prepare($SQL);
-
-            $stmt->execute();
-
-            $posts = $stmt->get_result();
-        } else {
-            $search_input = "car";
-
-            $stmt = $conn->prepare("SELECT * FROM posts WHERE Caption like ? OR HashTags like ? limit 12");
-
-            $stmt->bind_param("ss", strval("%" . $search_input . "%"), strval("%" . $search_input . "%"));
-
-            $stmt->execute();
-
-            $posts = $stmt->get_result();
-        }
         ?>
 
     </nav>
     <br><br><br>
 
-    <h3>Search Results For <small><?php echo $search_input?></small></h3><br>
+    <h3>All Posts<small></small></h3><br>
 
 
     <ul class="nav nav-pills nav-justified">
 
         <li class="active"><a data-toggle="pill" href="#home"><i class="icon fas fa-vote-yea fa-lg"></i>Posts</a></li>
-
-        <li><a data-toggle="pill" href="#menu2"><i class="icon fas fa-users fa-lg"></i>Profiles</a></li>
 
         <li><a data-toggle="pill" href="#menu3"><i class="icon fas fa-video fa-lg"></i>Videos</a></li>
 
@@ -122,11 +125,11 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
             <main>
 
-                    <div class="discover-container">
+                <div class="discover-container">
 
-                        <div class="gallery">
+                    <div class="gallery">
 
-                            <?php foreach ($posts as $post) { ?>
+                        <?php foreach ($posts as $post) { ?>
                             <div class="gallery-items">
 
                                 <img src="<?php echo "assets/images/posts/" . $post['Img_Path']; ?>" alt="post"
@@ -154,64 +157,13 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                             </div>
 
-                            <?php } ?>
-
-                        </div>
+                        <?php } ?>
 
                     </div>
+
+                </div>
 
             </main>
-
-        </div>
-        <div id="menu2" class="tab-pane fade">
-
-            <br>
-
-            <ul class="list-group">
-
-                <?php
-
-                $users = find_Users($search_input);
-
-                foreach ($users as $members) {
-                    ?>
-
-                    <div class="result-section">
-
-                        <li class="list-group-item search-result-item">
-
-                            <img src="<?php echo "assets/images/profiles/" . $members['IMAGE']; ?>" alt="profile-image">
-
-                            <div class="profile_card" style="margin-left: 20px;">
-
-                                <div>
-                                    <p class="username"><?php echo $members['FULL_NAME']; ?></p>
-
-                                    <p class="sub-text"><?php echo $members['USER_NAME']; ?></p>
-
-                                </div>
-
-                            </div>
-
-                            <div class="search-result-item-button">
-
-                                <form method="post" action="follower_acc.php">
-                                    <input type="hidden" value="<?php echo $members['User_ID'] ?>" name="target_id">
-
-                                    <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
-
-                                    <button type="submit" class="btn btn-outline-primary">Visit Profile</button>
-                                </form>
-
-                            </div>
-
-                        </li>
-                        <br>
-
-                    </div>
-
-                <?php } ?>
-            </ul>
 
         </div>
 
@@ -222,39 +174,39 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                 <?php
 
-                $events = find_Events($search_input);
+                $events = find_Events();
 
                 foreach($events as $event){?>
 
-                <div class="result-section">
+                    <div class="result-section">
 
-                    <li class="list-group-item search-result-item">
+                        <li class="list-group-item search-result-item">
 
-                        <img src="assets/images/calender.jpg" alt="profile-image">
+                            <img src="assets/images/calender.jpg" alt="profile-image">
 
-                        <div class="profile_card" style="margin-left: 20px;">
+                            <div class="profile_card" style="margin-left: 20px;">
 
-                            <div>
-                                <p class="username"
-                                   style="text-transform: capitalize;"><?php echo $event['Caption']; ?></p>
+                                <div>
+                                    <p class="username"
+                                       style="text-transform: capitalize; font-weight: bold;"><?php echo $event['Caption']; ?></p>
+
+                                    <p class="sub-text"><?php echo "Post Uploaded : ".$event['Date_Upload']; ?></p>
+                                </div>
+
                             </div>
 
-                        </div>
+                            <div class="search-result-item-button">
 
-                        <div class="search-result-item-button">
+                                <button style="background: white none" class="btn btn-outline-primary">
+                                    <a style="font-weight: bold; text-decoration: none;" href="single-event.php?post_id=<?php echo $event['Event_ID']; ?>" target="_blank">
 
-                            <button class="btn btn-outline-primary" style="background: white none;">
-                                <a href="Single-Event.php?post_id=<?php echo $event['Event_ID']; ?>" style="text-decoration: none; font-weight: bold;" target="_blank">
-                                    View Event
-                                </a>
-                            </button>
+                                        View Event</a></button>
+                            </div>
 
-                        </div>
+                        </li>
+                        <br>
 
-                    </li>
-                    <br>
-
-                </div>
+                    </div>
                 <?php }?>
 
             </ul>
@@ -268,7 +220,7 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                 <?php
 
-                $shorts = find_Shorts($search_input);
+                $shorts = find_Shorts();
 
                 foreach ($shorts
 
@@ -279,14 +231,14 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                     <li class="list-group-item search-result-item">
 
-                        <img src="<?php echo 'assets/videos/'. $video['Thumbnail_Path']; ?>" alt="profile-image">
+                        <img src="assets/images/video.png" alt="profile-image">
 
                         <div class="profile_card" style="margin-left: 20px;">
 
                             <div>
                                 <p class="username"
 
-                                   <?php $vid_data = "Single-Video.php?post_id= ".$video['Video_ID'];?>
+                                    <?php $vid_data = "single-video.php?post_id= ".$video['Video_ID'];?>
 
                                     <?php $new_string =  mb_strimwidth($video['Caption'], 0, 200, "....<br><a href='$vid_data'> Read More</a>");?>
 
@@ -298,10 +250,11 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                         <div class="search-result-item-button">
 
-                            <button class="btn btn-outline-primary" style="background: white none;">
-                                <a style="font-weight: bold; text-decoration: none;"
-                                   href="Single-Video.php?post_id=<?php echo $video['Video_ID']; ?>"
-                                   target="_blank">View Video</a></button>
+                            <button style="background: white none" class="btn btn-outline-primary">
+                                <a style="text-decoration: none; font-weight: bold;" href="single-video.php?post_id=<?php echo $video['Video_ID']; ?>" target="_blank">
+                                    View Video
+                                </a>
+                            </button>
                         </div>
 
                     </li>
@@ -314,12 +267,15 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
         </div>
     </div>
 
+
 </div>
 
 </body>
+
 <script type="text/javascript">
     document.getElementById("logo-img").onclick = function () {
         location.href = "home.php";
     };
 </script>
+
 </html>

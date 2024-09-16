@@ -90,7 +90,7 @@ else
 
         <div class="nav-items">
 
-            <a href="Events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
+            <a href="events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
 
             <a href="shorts.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-video fa-lg"></i></a>
 
@@ -98,7 +98,7 @@ else
 
             <div class="icon user-profile">
 
-                <a href="my_Profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
+                <a href="my-profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
 
             </div>
 
@@ -124,11 +124,11 @@ else
 
                         <br>
 
-                        <?php include('Check_FallowStatus.php');?>
+                        <?php include('check-follow-status-action.php');?>
 
                         <?php if($following_status){?>
 
-                            <form method="post" action="Unfollow_User.php">
+                            <form method="post" action="unfollow-user-action.php">
 
                                 <input type="hidden" value="<?php echo $array_user['User_ID']?>" name="other_User_Id">
 
@@ -139,7 +139,7 @@ else
                             </form>
                         <?php }else{ ?>
 
-                            <form method="post" action="fallow_user.php">
+                            <form method="post" action="fallow-user-action.php">
 
                                 <input type="hidden" name="fallow_person" value='<?php echo $array_user['User_ID'];?>'>
 
@@ -223,7 +223,7 @@ else
                 <div class="gallery">
 
 
-                    <?php include("get_targetPosts.php"); ?>
+                    <?php include("get-target-posts-action.php"); ?>
 
                     <!--loop over the results-->
 

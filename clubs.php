@@ -1,14 +1,14 @@
 <?php
 include_once __DIR__ . '/includes/csrf_token_helper.php';
 
-include('get_following.php');
+include('get-following-action.php');
 ?>
 
     <div class="status-wrapper">
 
     <?php foreach($Clubs as $person){?>
 
-            <form method="post" action="follower_acc.php" id="quick_access<?php echo $person['User_ID'];?>">
+            <form method="post" action="follower-acc.php" id="quick_access<?php echo $person['User_ID'];?>">
 
                 <div class="status-card">
 

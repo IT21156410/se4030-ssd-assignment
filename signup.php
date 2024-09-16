@@ -35,7 +35,7 @@ if (isset($_SESSION['id'])) {
 
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
-                                <form method="post" id="signup_form" action="signup_action.php">
+                                <form method="post" id="signup_form" action="signup-action.php">
                                     <div class="d-flex justify-content-center">
                                         <img class="mb-4" src="assets/images/login_request/small_logo.png" alt="" height="45">
                                     </div>

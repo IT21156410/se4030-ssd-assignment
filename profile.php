@@ -207,7 +207,7 @@ if(!isset($_SESSION['id']))
 
     <div class="gallery">
 
-    <?php include("get-posts.php"); ?>
+    <?php include("get-posts-action.php"); ?>
 
      <!--loop over the results-->
 

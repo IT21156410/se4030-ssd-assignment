@@ -30,7 +30,7 @@ function Update_Post($post_id, $post_caption, $post_hash)
 
     if ($stmt->execute()) {
 
-        $send = "Single-Video.php?post_id=$post_id&success_message=Current Post Updated Successfully";
+        $send = "single-video.php?post_id=$post_id&success_message=Current Post Updated Successfully";
 
         header("location: $send");
 
@@ -38,7 +38,7 @@ function Update_Post($post_id, $post_caption, $post_hash)
 
     } else {
 
-        $send = "Single-Video.php?post_id=$post_id&error_message=Problem With Post Update";
+        $send = "single-video.php?post_id=$post_id&error_message=Problem With Post Update";
 
         header("location: $send");
 

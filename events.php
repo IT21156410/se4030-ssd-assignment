@@ -129,7 +129,7 @@ if(!isset($_SESSION['id']))
 
             <div class="icon user-profile">
 
-                <a href="my_Profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
+                <a href="my-profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
 
             </div>
         </div>
@@ -143,7 +143,7 @@ if(!isset($_SESSION['id']))
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <form method="post" action="Results.php">
+                <form method="post" action="results.php">
                     <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
                     <input type="search" name="find" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                 </form>
@@ -167,9 +167,9 @@ if(!isset($_SESSION['id']))
             <!-- Wrapper for posting -->
             <?php
 
-            include('get_latest_events.php');
+            include('get-latest-events-action.php');
 
-            include('get_dataById.php');
+            include('get-data-by-id-action.php');
 
             foreach($posts as $post)
             {
@@ -203,7 +203,7 @@ if(!isset($_SESSION['id']))
 
                             <?php
 
-                            include('check_like_status_events.php');?>
+                            include('check-like-status-events-action.php');?>
 
                             <?php if($reaction_status){?>
 
@@ -225,7 +225,7 @@ if(!isset($_SESSION['id']))
 
                             <?php }?>
 
-                            <a href="Single-Event.php?post_id=<?php echo $post["Event_ID"];?>" style="color: #22262A;"><i class="icon fas fa-comment"></i></a>
+                            <a href="single-event.php?post_id=<?php echo $post[" style="color: #22262A;"><i class="icon fas fa-comment"></i></a>
 
                             <i class="icon fas fa-calendar-alt" style="color: #22262A;" id="<?php echo 'button_'.$post["Event_ID"];?>"
 
@@ -344,7 +344,7 @@ if(!isset($_SESSION['id']))
 
             <p class="suggesting">Recommendation For You</p>
 
-            <?php include("get_suggestions.php"); ?>
+            <?php include("get-suggestions-action.php"); ?>
 
             <?php foreach($suggestions as $suggestion){?>
 
@@ -352,7 +352,7 @@ if(!isset($_SESSION['id']))
 
                     <div class="profile-cards">
 
-                        <form id="suggestion_form<?php echo $suggestion['User_ID'];?>" method="post" action="follower_acc.php">
+                        <form id="suggestion_form<?php echo $suggestion['User_ID'];?>" method="post" action="follower-acc.php">
 
                             <input type="hidden" value="<?php echo $suggestion['User_ID']?>" name="target_id">
 
@@ -375,7 +375,7 @@ if(!isset($_SESSION['id']))
                             <p class="sub-text"><?php echo $new_string?></p>
                         </div>
 
-                        <form method="POST" action="fallow_user.php">
+                        <form method="POST" action="fallow-user-action.php">
 
                             <input type="hidden" name="fallow_person" value='<?php echo $suggestion['User_ID'];?>'>
 
@@ -404,7 +404,7 @@ if(!isset($_SESSION['id']))
                     <p class="card-text" style="font-size: 14px;"><?php echo $Event_Caption?></p>
 
                     <form>
-                        <button class="fallow-btn" style="font-size: 12px;"><a href="Single-Event.php?post_id=<?php echo $Event_ID;?>">Read More</a></button>
+                        <button class="fallow-btn" style="font-size: 12px;"><a href="single-event.php?post_id=<?php echo $Event_ID;?>">Read More</a></button>
                     </form>
                 </div>
 

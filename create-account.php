@@ -48,7 +48,7 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                                     <div class="card-body p-4 p-lg-5 text-black">
 
-                                        <form method="post" id="signup_form" action="signup_process.php">
+                                        <form method="post" id="signup_form" action="signup-process-action.php">
 
                                             <div class="d-flex justify-content-center">
 

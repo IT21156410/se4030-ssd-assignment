@@ -104,13 +104,13 @@ if(!isset($_SESSION['id']))
 
               <i class="icon fas fa-search fa-lg" data-bs-toggle="modal" data-bs-target="#search-model"></i>
 
-              <a href="Events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
+              <a href="events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
 
               <i class="icon fas fa-calendar-alt fa-lg"></i>
 
               <div class="icon user-profile">
 
-                  <a href="my_Profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
+                  <a href="my-profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
 
               </div>
 
@@ -125,7 +125,7 @@ if(!isset($_SESSION['id']))
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <form method="post" action="Results.php">
+                <form method="post" action="results.php">
 
                     <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
@@ -149,9 +149,9 @@ if(!isset($_SESSION['id']))
 
                 <?php
 
-                include('get_latest_videos.php');
+                include('get-latest-videos-action.php');
 
-                include('get_dataById.php');
+                include('get-data-by-id-action.php');
 
                 foreach($posts as $post)
                 {
@@ -193,7 +193,7 @@ if(!isset($_SESSION['id']))
 
                                     <?php
 
-                                    include('check_like_statusVid.php');?>
+                                    include('check-like-status-video-action.php');?>
 
                                     <?php if($reaction_status){?>
 
@@ -215,7 +215,7 @@ if(!isset($_SESSION['id']))
 
                                     <?php }?>
 
-                                    <a href="Single-Video.php?post_id=<?php echo $post["Video_ID"];?>" style="color: #22262A;"><i class="icon fas fa-comment"></i></a>
+                                    <a href="single-video.php?post_id=<?php echo $post[" style="color: #22262A;"><i class="icon fas fa-comment"></i></a>
 
                                 </div>
 
@@ -301,7 +301,7 @@ if(!isset($_SESSION['id']))
 
             <p class="suggesting">Recommendation For You</p>
 
-            <?php include("get_suggestions.php"); ?>
+            <?php include("get-suggestions-action.php"); ?>
 
             <?php foreach($suggestions as $suggestion){?>
 
@@ -309,7 +309,7 @@ if(!isset($_SESSION['id']))
 
                     <div class="profile-cards">
 
-                        <form id="suggestion_form<?php echo $suggestion['User_ID'];?>" method="post" action="follower_acc.php">
+                        <form id="suggestion_form<?php echo $suggestion['User_ID'];?>" method="post" action="follower-acc.php">
 
                             <input type="hidden" value="<?php echo $suggestion['User_ID']?>" name="target_id">
 
@@ -330,7 +330,7 @@ if(!isset($_SESSION['id']))
                             <p class="sub-text"><?php echo $new_string?></p>
                         </div>
 
-                        <form method="POST" action="fallow_user.php">
+                        <form method="POST" action="fallow-user-action.php">
 
                             <input type="hidden" name="fallow_person" value='<?php echo $suggestion['User_ID'];?>'>
 
@@ -381,7 +381,7 @@ if(!isset($_SESSION['id']))
                     <p class="card-text" style="font-size: 14px;"><?php echo $Event_Caption?></p>
 
                     <form>
-                        <button class="fallow-btn" style="font-size: 12px;"><a href="Single-Event.php?post_id=<?php echo $Event_ID;?>">Read More</a></button>
+                        <button class="fallow-btn" style="font-size: 12px;"><a href="single-event.php?post_id=<?php echo $Event_ID;?>">Read More</a></button>
                     </form>
                 </div>
 

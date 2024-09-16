@@ -107,13 +107,13 @@ session_regenerate_id(true);
 
         <div class="nav-items">
 
-            <a href="Events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
+            <a href="events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
 
             <a href="shorts.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-video fa-lg"></i></a>
 
             <div class="icon user-profile">
 
-                <a href="my_Profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
+                <a href="my-profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
 
             </div>
 
@@ -195,7 +195,7 @@ $comments = $stmt->get_result();
             <!-- Wrapper for single posting -->
 
             <?php
-            include('get_dataById.php');
+            include('get-data-by-id-action.php');
 
             foreach($post_array as $post)
             {
@@ -237,7 +237,7 @@ $comments = $stmt->get_result();
 
                             <div class="reactions-wrapper" id="reaction-wrapper">
 
-                                <?php include('check_like_status.php');?>
+                                <?php include('check_like_status-action.php');?>
 
                                 <?php if($reaction_status){?>
 
@@ -429,7 +429,7 @@ $comments = $stmt->get_result();
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Post</h1>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="Edit-Post-1.php">
+                            <form method="post" action="edit-post-action.php">
                                 <div class="mb-3">
                                     <label for="recipient-name" class="col-form-label">Hash Tags</label>
                                     <input type="text" class="form-control" id="recipient-name" name="hash-tag" value="<?php echo $post['HashTags'];?>" maxlength="20">
@@ -460,7 +460,7 @@ $comments = $stmt->get_result();
                                 You will lose any associated comments and reactions made in relation to that post if you take that step.
                             </p>
 
-                            <form action="Delete_Normal_Posts.php" method="post">
+                            <form action="delete-normal-posts-action.php" method="post">
                                 <input type="hidden" name="post_id" value="<?php echo $post['Post_ID'];?>">
 
                                 <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
@@ -476,7 +476,7 @@ $comments = $stmt->get_result();
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form method="post" action="Edit-Comment-1.php">
+                            <form method="post" action="edit-comment-action.php">
                                 <div class="mb-3">
                                     <label for="message-text" class="col-form-label">Your Opinion</label>
                                     <textarea class="form-control" id="message-text" maxlength="500" name="comment"><?php echo $comment['COMMENT']; ?></textarea>
@@ -505,7 +505,7 @@ $comments = $stmt->get_result();
                                 Think twice before removing your comment from the section because it may be beneficial for planning the greatest events ☹️
                             </p>
 
-                            <form action="Delete_Normal_Comment.php" method="post">
+                            <form action="delete-normal-comment-action.php" method="post">
 
                                 <input type="hidden" name="post_id" value="<?php echo $post['Post_ID'];?>">
 

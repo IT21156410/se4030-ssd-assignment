@@ -36,7 +36,7 @@ function Update_Post($post_id, $post_caption, $post_hash, $invite_link, $event_d
 
     if ($stmt->execute()) {
 
-        $send = "Single-Event.php?post_id=$post_id&success_message=Current Post Updated Successfully";
+        $send = "single-event.php?post_id=$post_id&success_message=Current Post Updated Successfully";
 
         header("location: $send");
 
@@ -44,7 +44,7 @@ function Update_Post($post_id, $post_caption, $post_hash, $invite_link, $event_d
 
     } else {
 
-        $send = "Single-Event.php?post_id=$post_id&error_message=Problem With Post Update";
+        $send = "single-event.php?post_id=$post_id&error_message=Problem With Post Update";
 
         header("location: $send");
 

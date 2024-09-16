@@ -15,7 +15,7 @@ if(isset($_POST['drop']))
 }
 else
 {
-    $send = "Single-Video.php?post_id=$post_id&error_message=Unrecognized Request";
+    $send = "single-video.php?post_id=$post_id&error_message=Unrecognized Request";
 
     header("location: $send");
 
@@ -42,7 +42,7 @@ function Drop_Post($post_id)
 
     } else {
 
-        $send = "Single-Video.php?post_id=$post_id&error_message=Problem With Drop Your Post";
+        $send = "single-video.php?post_id=$post_id&error_message=Problem With Drop Your Post";
 
         header("location: $send");
 
