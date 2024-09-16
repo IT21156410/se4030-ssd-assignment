@@ -1,6 +1,13 @@
 <?php
 
 /*
+ * To fix the "X-Powered-By" related vulnerability,
+ * need to ensure that this header is not sent in HTTP responses from the PHP application.
+ * In application level, we can remove the "X-Powered-By" header. Otherwise, can do that in php.ini file.
+ * */
+header_remove('X-Powered-By');
+
+/*
  * To fix the "X-Content-Type-Options Header Missing" vulnerability,
  * X-Content-Type-Options HTTP header need properly set to nosniff.
  * */
