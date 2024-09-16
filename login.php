@@ -59,7 +59,7 @@ if (isset($_SESSION['id'])) {
 
                                     <div class="card-body p-4 p-lg-5 text-black">
 
-                                        <form method="post" action="login_action.php">
+                                        <form method="post" action="login-action.php">
 
                                             <img src="assets/images/login_request/small_logo.png" height="40px" width="auto">
                                             <br><br>
@@ -93,7 +93,7 @@ if (isset($_SESSION['id'])) {
                                                 <button class="btn btn-dark btn-lg btn-block" type="submit" name="button">Login</button>
                                             </div>
 
-                                            <a class="small text-muted" href="Reset-Password.php">Forgot password?</a>
+                                            <a class="small text-muted" href="reset-password.php">Forgot password?</a>
 
                                             <p class="mb-2 pb-lg-2" style="color: #19afd4;">Don't have an account?
                                                 <a href="create-account.php" style="color: #2696ca;">Register here</a>

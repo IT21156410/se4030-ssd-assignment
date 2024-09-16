@@ -25,7 +25,7 @@ function Update_Profile($ID, $full_name, $user_name, $email_address, $facebook, 
 
         $_SESSION['bio'] = $bio;
 
-        header("location: my_Profile.php?success_message=Profile Updated Successfully");
+        header("location: my-profile.php?success_message=Profile Updated Successfully");
 
         exit;
 

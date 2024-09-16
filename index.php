@@ -62,7 +62,7 @@ include_once __DIR__ . '/includes/headers.php';
 
     <p class="w3-large w3-center">Events with Elegance</p>
 
-    <p class="w3-large w3-center"><a href="selection_page.php"><button type="button" class="btn btn-outline-light" data-mdb-ripple-color="dark">Get Started</button></a></p>
+    <p class="w3-large w3-center"><a href="selection-page.php"><button type="button" class="btn btn-outline-light" data-mdb-ripple-color="dark">Get Started</button></a></p>
 
   </div>
   

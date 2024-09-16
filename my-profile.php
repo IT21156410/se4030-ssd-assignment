@@ -166,7 +166,7 @@ if(!isset($_SESSION['id']))
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item"><h5 class="font-weight-bold mb-0 d-block"><?php echo $_SESSION['postcount'] ?></h5><small class="text-muted">
 
-                            <i class="fas fa-image mr-1"></i><a href="All-Media.php" style="text-decoration: none; color: #1c1f23;">Posts</small></a></li>
+                            <i class="fas fa-image mr-1"></i><a href="all-media.php" style="text-decoration: none; color: #1c1f23;">Posts</small></a></li>
 
                     <li class="list-inline-item"> <h5 class="font-weight-bold mb-0 d-block"><?php echo $_SESSION['fallowers'] ?></h5><small class="text-muted">
 
@@ -213,14 +213,14 @@ if(!isset($_SESSION['id']))
 
                     <h5 class="mb-0">Recent photos</h5>
 
-                    <p class="mb-0"><a href="All-Media.php" class="text-muted">Show all</a></p>
+                    <p class="mb-0"><a href="all-media.php" class="text-muted">Show all</a></p>
 
                 </div> <div class="row">
 
                     <div class="gallery">
 
 
-                        <?php include("get-posts.php"); ?>
+                        <?php include("get-posts-action.php"); ?>
 
                         <!--loop over the results-->
 

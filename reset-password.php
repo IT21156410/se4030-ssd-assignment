@@ -62,7 +62,7 @@ if(isset($_SESSION['id']))
 
                             <div class="card-body p-4 p-lg-5 text-black">
 
-                                <form method="post" action="password-reset.php">
+                                <form method="post" action="password-reset-action.php">
 
                                     <img src="assets/images/login_request/small_logo.png" height="40px" width="auto"> <br><br>
 

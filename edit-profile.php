@@ -62,7 +62,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="icon user-profile">
 
-                <a href="my_Profile.php"><i class="fas fa-user-circle fa-lg"></i></a>
+                <a href="my-profile.php"><i class="fas fa-user-circle fa-lg"></i></a>
 
             </div>
 
@@ -300,7 +300,7 @@ if (!isset($_SESSION['id'])) {
                 <h5 class="modal-title" id="staticBackdropLabel">Change Profile Picture</h5>
             </div>
             <div class="modal-body">
-                <form method="post" action="Update-Profile-img.php" enctype="multipart/form-data">
+                <form method="post" action="update-profile-img-action.php" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="formFileSm" class="form-label">Choose Your Profile Image : </label>
 
@@ -328,7 +328,7 @@ if (!isset($_SESSION['id'])) {
                 <h5 class="modal-title" id="staticBackdropLabel">Change Password</h5>
             </div>
             <div class="modal-body">
-                <form method="post" action="Change-Pass.php">
+                <form method="post" action="change-password-action.php">
 
                     <label for="inputPassword5" class="form-label">Old Password</label>
                     <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" name="old-password">

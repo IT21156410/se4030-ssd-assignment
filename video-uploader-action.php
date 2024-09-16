@@ -71,16 +71,16 @@ if (isset($_POST['posting'])) {
 
         move_uploaded_file($thumb_temp_name, $second_file);
 
-        header("location: video_upload.php?success_message=Post Successfully updated");
+        header("location: video-upload.php?success_message=Post Successfully updated");
 
         exit;
     } else {
-        header("location: video_upload.php?error_message=Error Occurred, try again - ERROR #008");
+        header("location: video-upload.php?error_message=Error Occurred, try again - ERROR #008");
 
         exit;
     }
 } else {
-    header("location: video_upload.php?error_message=Error Occurred, try again2 - ERROR #009");
+    header("location: video-upload.php?error_message=Error Occurred, try again2 - ERROR #009");
 
     exit;
 }

@@ -15,7 +15,7 @@ if(isset($_POST['drop']))
 }
 else
 {
-    $send = "Single-Event.php?post_id=$post_id&error_message=Unrecognized Request";
+    $send = "single-event.php?post_id=$post_id&error_message=Unrecognized Request";
 
     header("location: $send");
 
@@ -36,13 +36,13 @@ function Drop_Post($post_id)
 
         Drop_Comments($post_id);
 
-        header("location: Events.php");
+        header("location: events.php");
 
         exit;
 
     } else {
 
-        $send = "Single-Event.php?post_id=$post_id&error_message=Problem With Drop Your Post";
+        $send = "single-event.php?post_id=$post_id&error_message=Problem With Drop Your Post";
 
         header("location: $send");
 

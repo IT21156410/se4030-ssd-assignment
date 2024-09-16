@@ -69,7 +69,7 @@ if(!isset($_SESSION['id']))
 
     <div class="nav-items">
 
-        <a href="Events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
+        <a href="events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
 
         <a href="shorts.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-video fa-lg"></i></a>
 
@@ -77,7 +77,7 @@ if(!isset($_SESSION['id']))
 
         <div class="icon user-profile">
 
-            <a href="my_Profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
+            <a href="my-profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
 
         </div>
     </div>

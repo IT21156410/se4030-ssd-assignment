@@ -52,13 +52,13 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
     <div class="nav-items">
 
-        <a href="Events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
+        <a href="events.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-flag fa-lg"></i></a>
 
         <a href="shorts.php" style="text-decoration: none; color: #1c1f23"><i class="icon fas fa-video fa-lg"></i></a>
 
         <div class="icon user-profile">
 
-            <a href="my_Profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
+            <a href="my-profile.php" ><i class="fas fa-user-circle fa-lg"></i></a>
 
         </div>
     </div>
@@ -96,9 +96,9 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                   <?php
 
-                  include('Results_Provider.php');
+                  include('results-provider-action.php');
 
-                  include('get_dataById.php');
+                  include('get-data-by-id-action.php');
 
                   $users = get_My_Followings();
 
@@ -125,7 +125,7 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                               <div class="search-result-item-button">
 
-                                  <form method="post" action="follower_acc.php">
+                                  <form method="post" action="follower-acc.php">
                                       <input type="hidden" value="<?php echo $members['Other_user_id']?>" name="target_id">
 
                                       <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
@@ -173,7 +173,7 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                               <div class="search-result-item-button">
 
-                                  <form method="post" action="follower_acc.php">
+                                  <form method="post" action="follower-acc.php">
                                       <input type="hidden" value="<?php echo $members['Other_user_id']?>" name="target_id">
 
                                       <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>

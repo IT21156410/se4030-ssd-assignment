@@ -12,17 +12,19 @@ $user_id = $_SESSION['id'];
 
 $date = date("Y-m-d H:i:s");
 
-$sql = "INSERT INTO comments_vid(VIDEO_ID, USER_ID, COMMENT, DATE)VALUES ($post_id, $user_id, '$comment', '$date');";
+$sql = "INSERT INTO comments_events(EVENT_ID, USER_ID, COMMENT, DATE)VALUES ($post_id, $user_id, '$comment', '$date');";
+
+echo ($sql);
 
 $stmt = $conn->prepare($sql);
 
 if($stmt->execute())
 {
     // if your comment submit successfully js function do actions for it
-
-}else
+}
+else
 {
-    header("location: Single-Video.php?post_id=" . $post_id."&error_message=Your Opinion Submission Abort");
+    header("location: single-event.php?post_id=" . $post_id."&error_message=Your Opinion Submission Abort");
 }
 
 exit;

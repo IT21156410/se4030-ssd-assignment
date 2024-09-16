@@ -48,10 +48,10 @@ if(isset($_POST['reset-pass']))
             mailer($email_address, $pass, $full_name);
         }
         else{
-            header('location: Reset-Password.php?error_message=System Error Try Again');
+            header('location: reset-password.php?error_message=System Error Try Again');
         }
     }else{
-        header('location: Reset-Password.php?error_message=Your E-Mail Not Registered In This Platform');
+        header('location: reset-password.php?error_message=Your E-Mail Not Registered In This Platform');
     }
 }
 

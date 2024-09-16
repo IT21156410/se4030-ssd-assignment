@@ -74,7 +74,7 @@ require_once __DIR__ . '/includes/helper.php';
                                         <div class="pt-1 mb-4 mt-2">
 
                                             <button class="btn btn-dark btn-lg btn-block btn-sm" type="submit" name="signup_btn">
-                                                <a href="selection_page.php" style="text-decoration: none; color: white">Got It</a>
+                                                <a href="selection-page.php" style="text-decoration: none; color: white">Got It</a>
                                             </button>
 
                                         </div>

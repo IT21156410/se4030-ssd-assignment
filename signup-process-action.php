@@ -96,7 +96,7 @@ if (!isset($_POST['signup_btn'])) {
         exit;
     }
 
-    //header("location: WelCome.php");
+    //header("location: welcome.php");
     mailer($email_address, $user_name, $full_name);
 
     setFlashMessage('success', 'Account created successfully!.');
