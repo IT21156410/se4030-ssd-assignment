@@ -1,5 +1,5 @@
 <?php
-
+include_once __DIR__ . '/includes/headers.php';
 include 'Media-Provider.php';
 
 if(!isset($_SESSION['id']))

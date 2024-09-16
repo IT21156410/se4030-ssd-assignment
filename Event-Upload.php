@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/includes/headers.php';
 include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 require 'init.php';
