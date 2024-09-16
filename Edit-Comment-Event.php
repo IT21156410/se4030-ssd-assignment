@@ -1,8 +1,11 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 session_start();
 
 include('config.php');
+
+validateCsrfToken(); // Validate the CSRF token
 
 if (isset($_POST['edit-comment'])) {
 
@@ -43,4 +46,3 @@ function Update_Comment($post_id, $post_comment, $comment_id)
         exit;
     }
 }
-

@@ -1,10 +1,14 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 include('config.php');
 include('services/login-service.php');
+
+validateCsrfToken(); // Validate the CSRF token
 
 /** @var mysqli $conn */
 
@@ -481,4 +485,3 @@ function mailer(#[\SensitiveParameter] $email, $user_name, #[\SensitiveParameter
 
     sendEMail($Subject, $html, $email, $name);
 }
-

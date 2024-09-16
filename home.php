@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 require 'init.php';
 
@@ -6,7 +7,6 @@ session_regenerate_id(true);
 
 if (!isset($_SESSION['id'])) {
     header('location: login.php');
-
     exit;
 }
 
@@ -458,10 +458,10 @@ if (!isset($_SESSION['id'])) {
                                     <input type="hidden" value="<?php echo $suggestion['User_ID'] ?>" name="target_id">
 
                                     <div class="profile-pics">
-
                                         <img src="<?php echo "assets/images/profiles/" . $suggestion['IMAGE']; ?>" alt="profile-user" onclick="document.getElementById('suggestion_form'+<?php echo $suggestion['User_ID']; ?>).submit();">
-
                                     </div>
+
+                                    <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                 </form>
 
@@ -477,6 +477,8 @@ if (!isset($_SESSION['id'])) {
                                 <form method="POST" action="fallow_user.php">
 
                                     <input type="hidden" name="fallow_person" value='<?php echo $suggestion['User_ID']; ?>'>
+
+                                    <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                     <button type="submit" class="action-btn" name="fallow">follow</button>
 
@@ -545,6 +547,9 @@ if (!isset($_SESSION['id'])) {
                 <div class="modal-content">
                     <div class="modal-body">
                         <form method="post" action="Results.php">
+
+                            <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
+
                             <input type="search" name="find" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
                         </form>
                     </div>

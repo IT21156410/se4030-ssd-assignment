@@ -1,4 +1,7 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
+
+validateCsrfToken(); // Validate the CSRF token
 
 if(isset($_POST['drop_comments']))
 {
@@ -42,5 +45,3 @@ function Drop_Comment($comment_id, $post_id)
         exit;
     }
 }
-
-

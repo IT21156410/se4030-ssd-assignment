@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 session_start();
 
@@ -80,6 +81,7 @@ if(isset($_SESSION['id']))
                                         <label class="form-label" for="form2Example17">Enter Your Email Address</label>
                                     </div>
 
+                                    <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                     <div class="pt-1 mb-4">
                                         <button class="btn btn-dark btn-lg btn-block" name="reset-pass" type="submit" name="button">Change Password</button>

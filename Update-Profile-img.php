@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 session_start();
 
@@ -9,6 +10,8 @@ if (!isset($_SESSION['id'])) {
 }
 
 include('config.php');
+
+validateCsrfToken(); // Validate the CSRF token
 
 if (isset($_POST['posting'])) {
 

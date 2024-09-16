@@ -1,8 +1,11 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 session_start();
 
 include('config.php');
+
+validateCsrfToken(); // Validate the CSRF token
 
 if(isset($_POST['edit']))
 {
@@ -48,4 +51,3 @@ function Update_Post($post_id, $post_caption, $post_hash, $invite_link, $event_d
         exit;
     }
 }
-
