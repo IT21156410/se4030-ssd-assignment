@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 require 'init.php';
 
@@ -438,6 +439,8 @@ $comments = $stmt->get_result();
                                     <textarea class="form-control" id="message-text" maxlength="500" name="caption"><?php echo $post['Caption'];?></textarea>
                                 </div>
 
+                                <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
+
                                 <input type="hidden" name="post_id" value="<?php echo $post['Post_ID'];?>">
                                 <button type="submit" class="btn btn-outline-primary" name="edit">Edit Post</button>
                             </form>
@@ -459,6 +462,8 @@ $comments = $stmt->get_result();
                             <form action="Delete_Normal_Posts.php" method="post">
                                 <input type="hidden" name="post_id" value="<?php echo $post['Post_ID'];?>">
 
+                                <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
+
                                 <button type="submit" class="btn btn-outline-primary" name="drop">Drop Post</button>
                             </form>
                         </div>
@@ -479,6 +484,8 @@ $comments = $stmt->get_result();
                                 <input type="hidden" name="comment_id" value="<?php echo $comment['COMMENT_ID'];?>">
 
                                 <input type="hidden" name="post_id" value="<?php echo $post['Post_ID'];?>">
+
+                                <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                 <button type="submit" class="btn btn-outline-primary" name="edit-comment">Edit Your Opinion</button>
                             </form>
@@ -502,6 +509,8 @@ $comments = $stmt->get_result();
                                 <input type="hidden" name="post_id" value="<?php echo $post['Post_ID'];?>">
 
                                 <input type="hidden" name="comment_id" value="<?php echo $comment['COMMENT_ID'];?>">
+
+                                <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                 <button type="submit" class="btn btn-outline-primary" name="drop_comments">Drop Comment</button>
                             </form>
