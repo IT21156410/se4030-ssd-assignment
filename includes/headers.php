@@ -49,3 +49,22 @@ header("Report-To: {
     \"max_age\": 10886400, 
     \"endpoints\": [{ \"url\": \"/app-csp-violation\" }] 
 }");
+
+/*
+ * To fix the "Strict-Transport-Security Header Not Set" vulnerability,
+ * need to ensure that all pages are served with HTTPS and HSTS headers are included,
+ * we can add a script to set these headers in the application level.
+ * ---* configuring this header at the server level is the recommended way for better security.
+ * */
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    // Ensure that this script runs only for HTTPS requests
+    header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+}
+
+/*
+ * Not fixed header related violations
+ *  # Server Leaks Version Information via "Server" HTTP Response Header Field
+ *  ---- Reason: Did not address this vulnerability because it requires changes at the server configuration level,
+ *            which cannot be handled within the application code itself.
+ *            Server-level adjustments are necessary to fix it properly.
+ * */
