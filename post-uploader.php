@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 require 'init.php';
 
@@ -131,6 +132,8 @@ if(!isset($_SESSION['id']))
           </div>
 
           <br>
+
+            <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
           <div class="form-group">
 

@@ -1,3 +1,7 @@
+<?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
+?>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -137,6 +141,8 @@ if(!isset($_SESSION['id']))
                         <br>
 
                         <form method="post" action="update-profile.php" class="edit-profile">
+
+                            <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                 <button type="submit" class="btn btn-outline-light btn-sm btn-block mt-2">Edit Profile</button>
                         </form>
