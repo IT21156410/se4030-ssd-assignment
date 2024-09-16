@@ -1,6 +1,7 @@
 <?php
 
 include_once __DIR__ . '/includes/helper.php';
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 if (isset($_SESSION['id'])) {
     header('location: index.php');
@@ -85,6 +86,8 @@ if (isset($_SESSION['id'])) {
                                                 <input type="password" id="form2Example27" class="form-control form-control-lg" name="password"/>
                                                 <label class="form-label" for="form2Example27">Password</label>
                                             </div>
+
+                                            <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                             <div class="pt-1 mb-4">
                                                 <button class="btn btn-dark btn-lg btn-block" type="submit" name="button">Login</button>
