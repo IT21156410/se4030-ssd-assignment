@@ -1,4 +1,4 @@
-<?php  include('Results_Provider.php'); ?>
+<?php include('Results_Provider.php'); ?>
 
 <!DOCTYPE html>
 
@@ -21,7 +21,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
 
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -43,110 +43,117 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <nav class="navbar">
+        <nav class="navbar">
 
-        <div class="nav-wrapper">
+            <div class="nav-wrapper">
 
-            <img src="assets/images/black_logo.png" class="brand-img" id="logo-img">
+                <img src="assets/images/black_logo.png" class="brand-img" id="logo-img">
 
-            <div class="nav-items">
+                <div class="nav-items">
 
-                <div class="icon user-profile">
+                    <div class="icon user-profile">
 
-                    <a href="my_Profile.php" style="text-transform: none; color: #1c1f23;"><i class="fas fa-user-circle fa-lg"></i></a>
+                        <a href="my_Profile.php" style="text-transform: none; color: #1c1f23;"><i class="fas fa-user-circle fa-lg"></i></a>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+            <?php
 
-        <?php
+            include('config.php');
 
-        include('config.php');
+            if (isset($_POST['find'])) {
+
+                $search_input = htmlspecialchars($_POST['find'], ENT_QUOTES, 'UTF-8'); // Escaped output
+
+                $SQL = "SELECT * FROM posts WHERE Caption LIKE ? OR HashTags LIKE ?;";
+
+                $stmt = $conn->prepare($SQL);
+
+                $like_input = "%$search_input%";
+
+                $stmt->bind_param('ss', $like_input, $like_input);
+
+                $stmt->execute();
+
+                $posts = $stmt->get_result();
+            } else {
+                $search_input = "car";
+
+                $stmt = $conn->prepare("SELECT * FROM posts WHERE Caption LIKE ? OR HashTags LIKE ? LIMIT 12");
+
+                $stmt->bind_param("ss", $like_input, $like_input);
+
+                $stmt->execute();
+
+                $posts = $stmt->get_result();
+            }
+
+            ?>
+
+        </nav>
+        <br><br><br>
+
+        <h3>Search Results For <small><?php echo htmlspecialchars($search_input, ENT_QUOTES, 'UTF-8'); ?></small></h3><br>
 
 
-        if (isset($_POST['find'])) {
+        <ul class="nav nav-pills nav-justified">
 
-            $search_input = $_POST['find'];
+            <li class="active"><a data-toggle="pill" href="#home"><i class="icon fas fa-vote-yea fa-lg"></i>Posts</a></li>
 
-            $SQL = "SELECT * FROM posts WHERE Caption LIKE '%$search_input%' OR HashTags LIKE '%$search_input%';";
+            <li><a data-toggle="pill" href="#menu2"><i class="icon fas fa-users fa-lg"></i>Profiles</a></li>
 
-            $stmt = $conn->prepare($SQL);
+            <li><a data-toggle="pill" href="#menu3"><i class="icon fas fa-video fa-lg"></i>Videos</a></li>
 
-            $stmt->execute();
+            <li><a data-toggle="pill" href="#menu-4"><i class="icon fas fa-calendar-check fa-lg"></i>Events</a></li>
 
-            $posts = $stmt->get_result();
-        } else {
-            $search_input = "car";
+        </ul>
 
-            $stmt = $conn->prepare("SELECT * FROM posts WHERE Caption like ? OR HashTags like ? limit 12");
+        <div class="tab-content">
 
-            $stmt->bind_param("ss", strval("%" . $search_input . "%"), strval("%" . $search_input . "%"));
+            <div id="home" class="tab-pane fade in active">
 
-            $stmt->execute();
-
-            $posts = $stmt->get_result();
-        }
-        ?>
-
-    </nav>
-    <br><br><br>
-
-    <h3>Search Results For <small><?php echo $search_input?></small></h3><br>
-
-
-    <ul class="nav nav-pills nav-justified">
-
-        <li class="active"><a data-toggle="pill" href="#home"><i class="icon fas fa-vote-yea fa-lg"></i>Posts</a></li>
-
-        <li><a data-toggle="pill" href="#menu2"><i class="icon fas fa-users fa-lg"></i>Profiles</a></li>
-
-        <li><a data-toggle="pill" href="#menu3"><i class="icon fas fa-video fa-lg"></i>Videos</a></li>
-
-        <li><a data-toggle="pill" href="#menu-4"><i class="icon fas fa-calendar-check fa-lg"></i>Events</a></li>
-
-    </ul>
-
-    <div class="tab-content">
-
-        <div id="home" class="tab-pane fade in active">
-
-            <main>
+                <main>
 
                     <div class="discover-container">
 
                         <div class="gallery">
 
                             <?php foreach ($posts as $post) { ?>
-                            <div class="gallery-items">
+                                <div class="gallery-items">
 
-                                <img src="<?php echo "assets/images/posts/" . $post['Img_Path']; ?>" alt="post"
-                                     class="gallery-img">
+                                    <img src="<?php echo "assets/images/posts/" . htmlspecialchars($post['Img_Path'], ENT_QUOTES, 'UTF-8'); ?>" alt="post"
+                                        class="gallery-img">
 
-                                <div class="gallery-item-info">
+                                    <div class="gallery-item-info">
 
-                                    <ul>
+                                        <ul>
 
-                                        <li class="gallery-items-likes"><span
-                                                    class="hide-gallery-elements"><?php echo $post['Likes']; ?></span>
+                                            <li class="gallery-items-likes">
 
-                                            <i class="icon fas fa-thumbs-up"></i>
+                                                <span class="hide-gallery-elements"><?php echo htmlspecialchars($post['Likes'], ENT_QUOTES, 'UTF-8'); ?></span>
 
-                                        </li>
+                                                <i class="icon fas fa-thumbs-up"></i>
 
-                                        <li class="gallery-items-likes"><span class="hide-gallery-elements">Opinions</span>
+                                            </li>
 
-                                            <a href="single-post.php?post_id=<?php echo $post['Post_ID'];?>" style="color: white" target="_blank"><i class="icon fas fa-comment"></i></a>
+                                            <li class="gallery-items-likes"><span class="hide-gallery-elements">Opinions</span>
 
-                                        </li>
-                                    </ul>
+                                                <a href="single-post.php?post_id=<?php echo htmlspecialchars($post['Post_ID'], ENT_QUOTES, 'UTF-8'); ?>" style="color: white" target="_blank">
+                                                    <i class="icon fas fa-comment"></i>
+                                                </a>
+
+                                            </li>
+                                        </ul>
+
+                                    </div>
 
                                 </div>
-
-                            </div>
 
                             <?php } ?>
 
@@ -154,164 +161,160 @@
 
                     </div>
 
-            </main>
+                </main>
 
-        </div>
-        <div id="menu2" class="tab-pane fade">
+            </div>
+            <div id="menu2" class="tab-pane fade">
 
-            <br>
+                <br>
 
-            <ul class="list-group">
+                <ul class="list-group">
 
-                <?php
+                    <?php
 
-                $users = find_Users($search_input);
+                    $users = find_Users($search_input);
 
-                foreach ($users as $members) {
+                    foreach ($users as $members) {
                     ?>
 
-                    <div class="result-section">
+                        <div class="result-section">
 
-                        <li class="list-group-item search-result-item">
+                            <li class="list-group-item search-result-item">
 
-                            <img src="<?php echo "assets/images/profiles/" . $members['IMAGE']; ?>" alt="profile-image">
+                                <img src="<?php echo "assets/images/profiles/" . htmlspecialchars($members['IMAGE'], ENT_QUOTES, 'UTF-8'); ?>" alt="profile-image">
 
-                            <div class="profile_card" style="margin-left: 20px;">
+                                <div class="profile_card" style="margin-left: 20px;">
 
-                                <div>
-                                    <p class="username"><?php echo $members['FULL_NAME']; ?></p>
-
-                                    <p class="sub-text"><?php echo $members['USER_NAME']; ?></p>
+                                    <div>
+                                        <p class="username"><?php echo htmlspecialchars($members['FULL_NAME'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                        <p class="sub-text"><?php echo htmlspecialchars($members['USER_NAME'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                    </div>
 
                                 </div>
 
-                            </div>
+                                <div class="search-result-item-button">
 
-                            <div class="search-result-item-button">
+                                    <form method="post" action="follower_acc.php">
+                                        <input type="hidden" value="<?php echo htmlspecialchars($members['User_ID'], ENT_QUOTES, 'UTF-8'); ?>" name="target_id">
+                                        <button type="submit" class="btn btn-outline-primary">Visit Profile</button>
+                                    </form>
 
-                                <form method="post" action="follower_acc.php">
-                                    <input type="hidden" value="<?php echo $members['User_ID'] ?>" name="target_id">
+                                </div>
 
-                                    <button type="submit" class="btn btn-outline-primary">Visit Profile</button>
-                                </form>
+                            </li>
+                            <br>
 
-                            </div>
+                        </div>
 
-                        </li>
-                        <br>
+                    <?php } ?>
+                </ul>
 
-                    </div>
+            </div>
 
-                <?php } ?>
-            </ul>
+            <div id="menu-4" class="tab-pane fade">
 
+                <br>
+                <ul class="list-group">
+
+                    <?php
+
+                    $events = find_Events($search_input);
+
+                    foreach ($events as $event) { ?>
+
+                        <div class="result-section">
+
+                            <li class="list-group-item search-result-item">
+
+                                <img src="assets/images/calender.jpg" alt="profile-image">
+
+                                <div class="profile_card" style="margin-left: 20px;">
+
+                                    <div>
+                                        <p class="username" style="text-transform: capitalize;"><?php echo htmlspecialchars($event['Caption'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                    </div>
+
+                                </div>
+
+                                <div class="search-result-item-button">
+
+                                    <button class="btn btn-outline-primary" style="background: white none;">
+                                        <a href="Single-Event.php?post_id=<?php echo urlencode($event['Event_ID']); ?>" style="text-decoration: none; font-weight: bold;" target="_blank">
+                                            View Event
+                                        </a>
+                                    </button>
+
+                                </div>
+
+                            </li>
+                            <br>
+
+                        </div>
+                    <?php } ?>
+
+                </ul>
+            </div>
+
+            <div id="menu3" class="tab-pane fade">
+
+                <br>
+
+                <ul class="list-group">
+
+                    <?php
+
+                    $shorts = find_Shorts($search_input);
+
+                    foreach (
+                        $shorts
+
+                        as $video
+                    ) {
+                    ?>
+
+                        <div class="result-section">
+
+                            <li class="list-group-item search-result-item">
+
+                                <img src="<?php echo 'assets/videos/' . htmlspecialchars($video['Thumbnail_Path'], ENT_QUOTES, 'UTF-8'); ?>" alt="video-thumbnail">
+
+                                <div class="profile_card" style="margin-left: 20px;">
+
+                                    <div>
+                                        <?php
+                                        $vid_data = "Single-Video.php?post_id=" . urlencode($video['Video_ID']);
+                                        $new_string = mb_strimwidth(htmlspecialchars($video['Caption'], ENT_QUOTES, 'UTF-8'), 0, 200, "....<br><a href='$vid_data'> Read More</a>");
+                                        ?>
+                                        <p class="username" style="text-transform: capitalize; font-weight: bold; font-size: 13px;"><?php echo $new_string; ?></p>
+                                    </div>
+
+                                </div>
+
+                                <div class="search-result-item-button">
+
+                                    <button class="btn btn-outline-primary" style="background: white none;">
+                                        <a style="font-weight: bold; text-decoration: none;" href="Single-Video.php?post_id=<?php echo urlencode($video['Video_ID']); ?>" target="_blank">View Video</a>
+                                    </button>
+
+                                </div>
+
+                            </li>
+                            <br>
+
+                        </div>
+
+                    <?php } ?>
+                </ul>
+            </div>
         </div>
 
-        <div id="menu-4" class="tab-pane fade">
-
-            <br>
-            <ul class="list-group">
-
-                <?php
-
-                $events = find_Events($search_input);
-
-                foreach($events as $event){?>
-
-                <div class="result-section">
-
-                    <li class="list-group-item search-result-item">
-
-                        <img src="assets/images/calender.jpg" alt="profile-image">
-
-                        <div class="profile_card" style="margin-left: 20px;">
-
-                            <div>
-                                <p class="username"
-                                   style="text-transform: capitalize;"><?php echo $event['Caption']; ?></p>
-                            </div>
-
-                        </div>
-
-                        <div class="search-result-item-button">
-
-                            <button class="btn btn-outline-primary" style="background: white none;">
-                                <a href="Single-Event.php?post_id=<?php echo $event['Event_ID']; ?>" style="text-decoration: none; font-weight: bold;" target="_blank">
-                                    View Event
-                                </a>
-                            </button>
-
-                        </div>
-
-                    </li>
-                    <br>
-
-                </div>
-                <?php }?>
-
-            </ul>
-        </div>
-
-        <div id="menu3" class="tab-pane fade">
-
-            <br>
-
-            <ul class="list-group">
-
-                <?php
-
-                $shorts = find_Shorts($search_input);
-
-                foreach ($shorts
-
-                as $video){
-                ?>
-
-                <div class="result-section">
-
-                    <li class="list-group-item search-result-item">
-
-                        <img src="<?php echo 'assets/videos/'. $video['Thumbnail_Path']; ?>" alt="profile-image">
-
-                        <div class="profile_card" style="margin-left: 20px;">
-
-                            <div>
-                                <p class="username"
-
-                                   <?php $vid_data = "Single-Video.php?post_id= ".$video['Video_ID'];?>
-
-                                    <?php $new_string =  mb_strimwidth($video['Caption'], 0, 200, "....<br><a href='$vid_data'> Read More</a>");?>
-
-                                   style="text-transform: capitalize; font-weight: bold; font-size: 13px;"><?php echo $new_string ?></p>
-
-                            </div>
-
-                        </div>
-
-                        <div class="search-result-item-button">
-
-                            <button class="btn btn-outline-primary" style="background: white none;">
-                                <a style="font-weight: bold; text-decoration: none;"
-                                   href="Single-Video.php?post_id=<?php echo $video['Video_ID']; ?>"
-                                   target="_blank">View Video</a></button>
-                        </div>
-
-                    </li>
-                    <br>
-
-                </div>
-
-                <?php } ?>
-            </ul>
-        </div>
     </div>
-
-</div>
 
 </body>
 <script type="text/javascript">
-    document.getElementById("logo-img").onclick = function () {
+    document.getElementById("logo-img").onclick = function() {
         location.href = "home.php";
     };
 </script>
+
 </html>
