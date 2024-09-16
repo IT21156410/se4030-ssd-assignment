@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/includes/headers.php';
 require_once __DIR__ . '/includes/helper.php';
 ?>
 <!DOCTYPE html>

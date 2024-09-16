@@ -1,5 +1,5 @@
 <?php
-
+include_once __DIR__ . '/includes/headers.php';
 require 'init.php';
 
 session_regenerate_id(true);
