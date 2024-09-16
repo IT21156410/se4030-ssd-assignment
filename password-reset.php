@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 include('config.php');
 
@@ -9,6 +10,8 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require_once "vendor/autoload.php";
+
+validateCsrfToken(); // Validate the CSRF token
 
 if(isset($_POST['reset-pass']))
 {
