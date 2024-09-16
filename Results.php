@@ -1,4 +1,7 @@
-<?php  include('Results_Provider.php'); ?>
+<?php
+include('Results_Provider.php');
+include_once __DIR__ . '/includes/csrf_token_helper.php';
+?>
 
 <!DOCTYPE html>
 
@@ -66,6 +69,8 @@
         <?php
 
         include('config.php');
+
+        validateCsrfToken(); // Validate the CSRF token
 
 
         if (isset($_POST['find'])) {
@@ -191,6 +196,8 @@
 
                                 <form method="post" action="follower_acc.php">
                                     <input type="hidden" value="<?php echo $members['User_ID'] ?>" name="target_id">
+
+                                    <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                     <button type="submit" class="btn btn-outline-primary">Visit Profile</button>
                                 </form>

@@ -1,3 +1,6 @@
+<?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -128,6 +131,8 @@ else
 
                                 <input type="hidden" value="<?php echo $array_user['User_ID']?>" name="other_User_Id">
 
+                                <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
+
                                 <button type="submit" name="unfollow" class="btn btn-outline-light btn-sm btn-block mt-2">Unfollow</button>
 
                             </form>
@@ -136,6 +141,8 @@ else
                             <form method="post" action="fallow_user.php">
 
                                 <input type="hidden" name="fallow_person" value='<?php echo $array_user['User_ID'];?>'>
+
+                                <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                                 <button type="submit" name="fallow" class="btn btn-outline-light btn-sm btn-block mt-2">Follow</button>
 

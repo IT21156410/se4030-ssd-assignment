@@ -1,6 +1,8 @@
 <?php
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
-include('get_following.php');?>
+include('get_following.php');
+?>
 
     <div class="status-wrapper">
 
@@ -17,6 +19,8 @@ include('get_following.php');?>
                     </div>
 
                     <p class="username" style="color: gray; font-weight: bold;"><?php echo $person['USER_NAME']?></p>
+
+                    <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
 
                 </div>
 
