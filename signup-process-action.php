@@ -51,15 +51,9 @@ if (!isset($_POST['signup_btn'])) {
 
     $User_ID = null;
     $user_name = userName();
-    $user_type = "1";
-    $facebook = null;
-    $whatsapp = null;
-    $bio = null;
-    $followers = 0;
-    $fallowing = 0;
-    $post_count = 0;
-    $image = "default.png";
-    $password = generateRandomPassword();
+    $user_type = 1;
+
+    //$password = generateRandomPassword();
 
     // user availability check in the system
 
@@ -77,13 +71,11 @@ if (!isset($_POST['signup_btn'])) {
         exit;
     }
 
-    $encrypted_password = md5($password);
+    $encrypted_password = password_hash($password, PASSWORD_BCRYPT);
 
-    $insert_query = "INSERT INTO users (FULL_NAME,USER_NAME,USER_TYPE,PASSWORD_S,EMAIL,IMAGE,FACEBOOK,WHATSAPP,BIO,FALLOWERS,FALLOWING,POSTS) VALUES
-    
-    ('$full_name', '$user_name', '$user_type', '$encrypted_password', '$email_address', '$image', '$facebook', '$whatsapp', '$bio', $followers, $fallowing, $post_count);";
-
+    $insert_query = "INSERT INTO users (FULL_NAME,USER_NAME,USER_TYPE,PASSWORD_S,EMAIL) VALUES (?,?,?,?,?);";
     $stmt->prepare($insert_query);
+    $stmt->bind_param("ssiss", $full_name, $user_name, $user_type, $encrypted_password, $email_address);
 
     if (!$stmt->execute()) {
         setFlashMessage('error', 'Something went wrong.');
