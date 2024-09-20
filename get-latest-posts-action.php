@@ -3,11 +3,9 @@
 include('config.php');
 
 
-if(isset($_GET['page_no']) && $_GET['page_no'] != "")
-{
+if (isset($_GET['page_no']) && $_GET['page_no'] !== "") {
     $page_no = $_GET['page_no'];
-}else
-{
+} else {
     $page_no = 1;
 }
 
@@ -29,10 +27,10 @@ $offest = ($page_no - 1) * $total_posts_per_page;
 
 // that php ceil function return rounded numbers
 
-$total_number_pages = ceil($total_posts/$total_posts_per_page);
+$total_number_pages = ceil($total_posts / $total_posts_per_page);
 
-$stmt = $conn->prepare("SELECT * FROM Posts ORDER BY Post_ID DESC LIMIT $offest, $total_posts_per_page;");
-
+$stmt = $conn->prepare("SELECT * FROM Posts ORDER BY Post_ID DESC LIMIT ?, ?");
+$stmt->bind_param("ii", $offest, $total_posts_per_page);
 $stmt->execute();
 
 $posts = $stmt->get_result();

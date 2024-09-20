@@ -1,14 +1,18 @@
 <?php
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 function find_Users($search_input)
 {
     include "config.php";
 
-    $SQL = "SELECT * FROM users WHERE FULL_NAME LIKE '%$search_input%' OR USER_NAME LIKE '%$search_input%';";
+    $SQL = "SELECT * FROM users WHERE FULL_NAME LIKE ? OR USER_NAME LIKE ?;";
 
     $stmt = $conn->prepare($SQL);
+    $search_string = "%{$search_input}%";
+    $stmt->bind_param("ss", $search_string, $search_string);
 
     $stmt->execute();
 
@@ -21,9 +25,11 @@ function find_Events($search_input)
 {
     include "config.php";
 
-    $SQL = "SELECT * FROM events WHERE Caption LIKE '%$search_input%' OR HashTags LIKE '%$search_input%';";
+    $SQL = "SELECT * FROM events WHERE Caption LIKE ? OR HashTags LIKE ?;";
 
     $stmt = $conn->prepare($SQL);
+    $search_string = "%{$search_input}%";
+    $stmt->bind_param("ss", $search_string, $search_string);
 
     $stmt->execute();
 
@@ -36,9 +42,11 @@ function find_Shorts($search_input)
 {
     include "config.php";
 
-    $SQL = "SELECT * FROM videos WHERE CAPTION LIKE '%$search_input%' OR HashTags LIKE '%$search_input%';";
+    $SQL = "SELECT * FROM videos WHERE CAPTION LIKE ? OR HashTags LIKE ?;";
 
     $stmt = $conn->prepare($SQL);
+    $search_string = "%{$search_input}%";
+    $stmt->bind_param("ss", $search_string, $search_string);
 
     $stmt->execute();
 
@@ -53,9 +61,10 @@ function get_My_Followers()
 
     $my_id = $_SESSION['id'];
 
-    $SQL = "SELECT * FROM fallowing WHERE Other_user_id = $my_id;";
+    $SQL = "SELECT * FROM fallowing WHERE Other_user_id = ?;";
 
     $stmt = $conn->prepare($SQL);
+    $stmt->bind_param("i", $my_id);
 
     $stmt->execute();
 
@@ -70,9 +79,10 @@ function get_My_Followings()
 
     $my_id = $_SESSION['id'];
 
-    $SQL = "SELECT * FROM fallowing WHERE User_Id = $my_id;";
+    $SQL = "SELECT * FROM fallowing WHERE User_Id = ?;";
 
     $stmt = $conn->prepare($SQL);
+    $stmt->bind_param("i", $my_id);
 
     $stmt->execute();
 

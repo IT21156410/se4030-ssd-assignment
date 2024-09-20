@@ -3,54 +3,45 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 include('config.php');
 
-use PHPMailer\PHPMailer\PHPMailer;
-
-use PHPMailer\PHPMailer\SMTP;
-
-use PHPMailer\PHPMailer\Exception;
-
 require_once "vendor/autoload.php";
 
 validateCsrfToken(); // Validate the CSRF token
 
-if(isset($_POST['reset-pass']))
-{
+if (isset($_POST['reset-pass'])) {
     $email_address = $_POST['email'];
 
-    echo $email_address;
-
-    $sql_query = "SELECT User_ID FROM USERS WHERE EMAIL = '$email_address';";
+    $sql_query = "SELECT User_ID FROM USERS WHERE EMAIL = ?";
 
     $stmt = $conn->prepare($sql_query);
-
+    $stmt->bind_param("s", $email_address);
     $stmt->execute();
-
     $stmt->store_result();
 
-    if($stmt->num_rows() > 0)
-    {
+    if ($stmt->num_rows() > 0) {
         require 'config.php';
 
         $pass = randomPassword();
 
-        $secure_password = md5($pass);
+        $secure_password = password_hash($pass, PASSWORD_DEFAULT);
 
-        $SQL_UPDATE = "UPDATE users SET PASSWORD_S = '$secure_password' WHERE EMAIL = '$email_address';";
+        $SQL_UPDATE = "UPDATE users SET PASSWORD_S = ? WHERE EMAIL = ?;";
 
         $stmt = $conn->prepare($SQL_UPDATE);
+        $stmt->bind_param("ss", $secure_password, $email_address);
 
         if ($stmt->execute()) {
 
             $full_name = "EventsWave User";
 
-            header('location:index.php');
+
+            setFlashMessage('success', 'New Password sent via email, check your inbox!.');
+            header("location: login.php");
 
             mailer($email_address, $pass, $full_name);
-        }
-        else{
+        } else {
             header('location: reset-password.php?error_message=System Error Try Again');
         }
-    }else{
+    } else {
         header('location: reset-password.php?error_message=Your E-Mail Not Registered In This Platform');
     }
 }
@@ -61,15 +52,14 @@ function randomPassword()
     return generateRandomPassword();
 }
 
-function mailer($sending_address, $password, $full_name)
+function mailer(#[\SensitiveParameter] $sending_address, #[\SensitiveParameter] $password, #[\SensitiveParameter] $full_name)
 {
-    $mail = sendEmail($full_name, $sending_address);
 
-    $mail->Subject = "Change Account Password";
+    $Subject = "Change Account Password";
 
-    $mail->Body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-    <html xmlns:v="urn:schemas-microsoft-com:vml">
+    <html >
     
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -317,7 +307,7 @@ function mailer($sending_address, $password, $full_name)
                                             
                                             <br><br>
                                                 
-                                            <br><br>New Password :'. $password .
+                                            <br><br>New Password :' . $password .
 
         '
                                             <br><br>You can access your account at any time by clicking on the link below.
@@ -450,17 +440,6 @@ function mailer($sending_address, $password, $full_name)
     
     </html>';
 
-    $mail->AltBody = "This is the plain text version of the email content";
+    sendEMail($Subject, $html, $sending_address, $full_name);
 
-    try
-    {
-        $mail->send();
-
-        echo "Message has been sent successfully";
-
-    }
-    catch (Exception $e)
-    {
-        echo "Mailer Error: " . $mail->ErrorInfo;
-    }
 }

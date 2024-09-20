@@ -1,105 +1,81 @@
 <?php
 include_once __DIR__ . '/includes/csrf_token_helper.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 include("config.php");
 
 validateCsrfToken(); // Validate the CSRF token
 
-if (isset($_POST['change-password']))
-{
+if (isset($_POST['change-password'])) {
     $user_id = $_SESSION['id'];
 
     $current_password = get_CurrentPassword($user_id);
 
-    $data_By_User = $_POST['old-password'];
+    $old_password = $_POST['old-password'];
 
     $new_password = $_POST['new-password'];
 
     $retype_password = $_POST['retype-password'];
 
-    $function_output = strcmp($current_password, md5($data_By_User));
-
-    $function_output_2 = strcmp($new_password, $retype_password);
-
-    $function_output_3 = strcmp($current_password, md5($new_password));
-
-    if($function_output == 0)
-    {
-        if($function_output_3 == 0)
-        {
+    //if (strcmp($current_password, md5($data_By_User)) === 0) {
+    if (password_verify($old_password, $current_password)) {
+        if (password_verify($new_password, $current_password)) {
             header('location: edit-profile.php?error_message=You Can"t Use Old Password as your new password');
-
             exit();
         }
-        else
-        {
-            if($function_output_2 == 0)
-            {
-                Update_Password($new_password, $user_id);
-            }
-            else
-            {
-                header('location: edit-profile.php?error_message=Retype Correctly New Password');
 
-                exit();
-            }
+        if (strcmp($new_password, $retype_password) === 0) {
+            Update_Password($new_password, $user_id);
+        } else {
+            header('location: edit-profile.php?error_message=Retype Correctly New Password');
+            exit();
         }
-    }
-    else
-    {
+    } else {
         header('location: edit-profile.php?error_message=Old Password You Entered Incorrect');
-
         exit();
     }
 
 }
 
-function Update_Password($new_password, $user_id)
+function Update_Password(#[SensitiveParameter] $new_password, $user_id)
 {
     include 'config.php';
 
-    $secure_password = md5($new_password);
+    $secure_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-    $SQL = "UPDATE users SET PASSWORD_S = '$secure_password' WHERE User_ID = $user_id;";
+    $SQL = "UPDATE users SET PASSWORD_S = ? WHERE User_ID = ?";
 
     $stmt = $conn->prepare($SQL);
-
+    $stmt->bind_param("si", $secure_password, $user_id);
     if ($stmt->execute()) {
-
         header('location: edit-profile.php?success_message=Password Change Successfully');
-
         exit;
-
     } else {
-
         header('location: edit-profile.php?error_message=Problem With Password Change Process');
-
         exit();
     }
 
-    $conn->close();
 }
 
 function get_CurrentPassword($User_ID)
 {
     include 'config.php';
 
-    $SQL = "SELECT * FROM users WHERE User_ID = $User_ID;";
-
-    $result = $conn->query($SQL);
-
-    if ($result->num_rows > 0)
-    {
-        while($row = $result->fetch_assoc())
-        {
+    $SQL = "SELECT * FROM users WHERE User_ID = ?";
+    $stmt = $conn->prepare($SQL);
+    $stmt->bind_param("i", $User_ID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
             $password = $row["PASSWORD_S"];
 
             return $password;
         }
-    }else
-    {
+    } else {
         return 0;
     }
 
