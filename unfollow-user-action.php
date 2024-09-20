@@ -1,30 +1,33 @@
 <?php
 include_once __DIR__ . '/includes/csrf_token_helper.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 include("config.php");
 
 validateCsrfToken(); // Validate the CSRF token
 
-if (isset($_POST['unfollow']))
-{
+if (isset($_POST['unfollow'])) {
     $user_id = $_SESSION['id'];
 
     $unfollow_person = $_POST['other_User_Id'];
 
-    $get_Id = "SELECT * FROM fallowing WHERE User_Id = $user_id AND Other_user_id = $unfollow_person;";
+    $get_Id = "SELECT * FROM fallowing WHERE User_Id = ? AND Other_user_id = ?;";
+    $stmt = $conn->prepare($get_Id);
+    $stmt->bind_param("ii", $user_id, $unfollow_person);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    $data = mysqli_query($conn, $get_Id);
-
-    while($row = mysqli_fetch_assoc($data))
-    {
+    while ($row = $result->fetch_assoc()) {
         $target_id = $row['ID'];
     }
 
-    $sql = "DELETE FROM fallowing WHERE ID = $target_id;";
+    $sql = "DELETE FROM fallowing WHERE ID = ?;";
 
     $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $target_id);
 
     $stmt->execute();
 
@@ -34,24 +37,20 @@ if (isset($_POST['unfollow']))
 
     update_Fallowing($user_id);
 
-    $_SESSION['fallowing'] =   $_SESSION['fallowing']-1;
-
-    header("location: home.php");
+    $_SESSION['fallowing']--;
 
 }
-else{
-
-    header("location: home.php");
-}
+header("location: home.php");
 
 
 function update_Fallowing($user_id)
 {
     include("config.php");
 
-    $sql = "UPDATE users SET FALLOWING = FALLOWING-1 WHERE User_ID = $user_id ;";
+    $sql = "UPDATE users SET FALLOWING = FALLOWING-1 WHERE User_ID = ? ;";
 
-    $stmt = $conn -> prepare($sql);
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
 
     $stmt->execute();
 }
@@ -60,11 +59,10 @@ function update_Fallowers($other_Person)
 {
     include("config.php");
 
-    $sql = "UPDATE users SET FALLOWERS = FALLOWERS-1 WHERE User_ID = $other_Person;";
+    $sql = "UPDATE users SET FALLOWERS = FALLOWERS-1 WHERE User_ID = ?;";
 
-    $stmt = $conn -> prepare($sql);
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $other_Person);
 
     $stmt->execute();
 }
-
-?>

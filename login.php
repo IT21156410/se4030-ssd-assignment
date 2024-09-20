@@ -4,7 +4,7 @@ include_once __DIR__ . '/includes/helper.php';
 include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 if (isset($_SESSION['id'])) {
-    header('location: index.php');
+    header('location: home.php');
     exit;
 }
 

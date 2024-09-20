@@ -1,17 +1,19 @@
-<?php 
+<?php
 
 function get_UserData($user_id)
 {
     include('config.php');
-        
-    $sql = "SELECT * FROM users WHERE USER_ID = $user_id";
+    /** @var mysqli $conn */
 
-    $result = $conn->query($sql);
-    
-    if ($result->num_rows > 0) 
-    {
-        while($row = $result->fetch_assoc())
-        {
+    $sql = "SELECT * FROM users WHERE USER_ID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
 
             $User_Name = $row["USER_NAME"];
 
@@ -23,12 +25,12 @@ function get_UserData($user_id)
 
             return $data_array;
         }
-    }else 
-    {
+    } else {
         return 0;
     }
-    
+
     $conn->close();
-    
+
 }
+
 ?>

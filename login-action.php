@@ -10,7 +10,7 @@ validateCsrfToken(); // Validate the CSRF token
 
 if (isset($_POST['button'])) {
     $email = $_POST['email'];
-    $password = md5($_POST['password']);
+    $password = $_POST['password'];
 
     if (!authenticateUser($email, $password)) {
         header('Location: login.php');
@@ -19,6 +19,7 @@ if (isset($_POST['button'])) {
 
     setFlashMessage('success', 'Login successfully!.');
     header("location: home.php");
+    exit;
 }
 
 setFlashMessage('error', 'Action not allowed.');

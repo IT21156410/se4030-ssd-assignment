@@ -4,19 +4,13 @@ include('config.php');
 
 $ID = $target_id;
 
-$sql = "SELECT * FROM Posts WHERE User_ID = $ID ORDER BY Post_ID DESC;";
-
-//echo $sql;
+$sql = "SELECT * FROM Posts WHERE User_ID = ? ORDER BY Post_ID DESC;";
 
 $stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $ID);
 
-if($stmt->execute())
-{
+if ($stmt->execute()) {
     $posts = $stmt->get_result();
-}
-else
-{
+} else {
     $posts = [];
 }
-
-?>
