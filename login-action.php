@@ -1,7 +1,9 @@
 <?php
 include_once __DIR__ . '/includes/csrf_token_helper.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 include('config.php');
 include('services/login-service.php');
