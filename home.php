@@ -314,7 +314,7 @@ if (!isset($_SESSION['id'])) {
 
                                         <?php } ?>
 
-                                        <a href="single-post.php?post_id= <?php echo $post["Post_ID"]; ?>" style="color: #22262A;"><i class="icon fas fa-comment fa-lg"></i></a>
+                                        <a href="single-post.php?post_id=<?php echo $post["Post_ID"]; ?>" style="color: #22262A;"><i class="icon fas fa-comment fa-lg"></i></a>
 
                                     </div>
 

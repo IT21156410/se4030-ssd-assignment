@@ -194,11 +194,11 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
 
                         <div class="p-4 rounded shadow-sm bg-light">
 
-                            <p class="mb-3 font-italic"><i class="bi bi-envelope fa-lg m-lg-2"></i>Email : <?php echo " " . $array_user['email'] ?></p>
+                            <p class="mb-3 font-italic"><i class="bi bi-envelope fa-lg m-lg-2"></i>Email : <?php echo " " . $array_user['EMAIL'] ?></p>
 
-                            <p class="mb-3 font-italic"><i class="bi bi-box-arrow-up-right fa-lg m-lg-2"></i>FaceBook : <?php echo " " . $array_user['facebook'] ?></p>
+                            <p class="mb-3 font-italic"><i class="bi bi-box-arrow-up-right fa-lg m-lg-2"></i>FaceBook : <?php echo " " . $array_user['FACEBOOK'] ?></p>
 
-                            <p class="mb-3 font-italic"><i class="bi bi-whatsapp fa-lg m-lg-2"></i>WhatsApp : <?php echo " " . $array_user['whatsapp'] ?></p>
+                            <p class="mb-3 font-italic"><i class="bi bi-whatsapp fa-lg m-lg-2"></i>WhatsApp : <?php echo " " . $array_user['WHATSAPP'] ?></p>
 
                         </div>
                     </div>

@@ -131,7 +131,7 @@ session_regenerate_id(true);
 
         if (isset($_GET['post_id'])) {
 
-            $post_identification = $_GET['post_id'];
+            $post_identification = (int)trim($_GET['post_id']);
 
             $stmt = $conn->prepare("SELECT * FROM Posts WHERE Post_ID = ?;");
 
@@ -176,7 +176,7 @@ session_regenerate_id(true);
 
         $stmt = $conn->prepare("SELECT * FROM comments WHERE POST_ID = ? ORDER BY COMMENT_ID DESC LIMIT ?, ?;");
 
-        $stmt->bind_param("i", $post_identification, $offest, $total_comments_per_page);
+        $stmt->bind_param("iii", $post_identification, $offest, $total_comments_per_page);
         $stmt->execute();
 
         $comments = $stmt->get_result();
