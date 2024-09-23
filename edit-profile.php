@@ -1,10 +1,13 @@
 <?php
+include_once __DIR__ . '/includes/headers.php';
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 if (!isset($_SESSION['id'])) {
   header('location: login.php');
-
   exit;
 }
 
@@ -21,9 +24,11 @@ if (!isset($_SESSION['id'])) {
 
   <link rel="icon" href="assets/images/event_accepted_50px.png" type="image/icon type">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.rtl.min.css" integrity="sha384-+qdLaIRZfNu4cVPK/PxJJEy0B0f3Ugv8i482AKY7gwXwhaCroABd086ybrVKTa0q" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.rtl.min.css"
+    integrity="sha384-+qdLaIRZfNu4cVPK/PxJJEy0B0f3Ugv8i482AKY7gwXwhaCroABd086ybrVKTa0q" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+    crossorigin="anonymous" />
 
   <title>Document</title>
 
@@ -33,14 +38,14 @@ if (!isset($_SESSION['id'])) {
 
   <link rel="stylesheet" href="assets/css/edit-profile.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="notifast/notifast.min.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
-
 
 
 <body>
@@ -59,13 +64,15 @@ if (!isset($_SESSION['id'])) {
 
         <div class="icon user-profile">
 
-          <a href="my_Profile.php"><i class="fas fa-user-circle fa-lg"></i></a>
+          <div class="icon user-profile">
+
+            <a href="my_Profile.php"><i class="fas fa-user-circle fa-lg"></i></a>
+
+          </div>
 
         </div>
 
       </div>
-
-    </div>
 
   </nav>
 
@@ -322,6 +329,41 @@ if (!isset($_SESSION['id'])) {
             <div id="passwordHelpBlock" class="form-text">
               Your New password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
             </div>
+
+            <button type="submit" class="btn btn-outline-primary btn-sm mt-2" name="change-password"><i class="fas fa-cloud-upload-alt"></i> Change Password</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="passchange" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Change Password</h5>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="change-password-action.php">
+
+            <label for="inputPassword5" class="form-label">Old Password</label>
+            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" name="old-password">
+
+            <label for="inputPassword5" class="form-label">New Password</label>
+            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" name="new-password">
+
+            <label for="inputPassword5" class="form-label">Retype Password</label>
+            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" name="retype-password">
+            <div id="passwordHelpBlock" class="form-text">
+              Your New password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+            </div>
+
+            <?php getCsrfTokenElement(); // Include CSRF token as hidden input 
+            ?>
 
             <button type="submit" class="btn btn-outline-primary btn-sm mt-2" name="change-password"><i class="fas fa-cloud-upload-alt"></i> Change Password</button>
           </form>

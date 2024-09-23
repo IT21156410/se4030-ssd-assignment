@@ -1,10 +1,10 @@
 <?php
-
-session_start();
+include_once __DIR__ . '/includes/headers.php';
+include_once __DIR__ . '/includes/helper.php';
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 
 if (isset($_SESSION['id'])) {
-    header('location: index.php');
-
+    header('location: home.php');
     exit;
 }
 
@@ -59,19 +59,23 @@ if (isset($_SESSION['id'])) {
 
                                     <div class="card-body p-4 p-lg-5 text-black">
 
-                                        <form method="post" action="login_action.php">
+                                        <form method="post" action="login-action.php">
 
                                             <img src="assets/images/login_request/small_logo.png" height="40px" width="auto">
                                             <br><br>
 
                                             <h5 class="fw-normal mb-3 pb-3" style="text-transform: uppercase; color: grey;"><b>Sign in with your sltc id</b></h5>
+                                            <?php if (hasFlashMessage('error')): ?>
+                                                <p id="error_message" class="text-center alert-danger">
+                                                    <?php echo getFlashMessage('error'); ?>
+                                                </p>
+                                            <?php endif; ?>
 
-
-                                            <?php if (isset($_GET['error_message'])) { ?>
-
-                                                <p id="error_message" class="text-center alert-danger"><?php echo $_GET['error_message']; ?></p>
-
-                                            <?php } ?>
+                                            <?php if (hasFlashMessage('success')): ?>
+                                                <p id="success_message" class="text-center alert-success">
+                                                    <?php echo getFlashMessage('success'); ?>
+                                                </p>
+                                            <?php endif; ?>
 
                                             <div class="form-outline mb-4">
                                                 <input type="text" id="form2Example17" class="form-control form-control-lg" name="email"/>
@@ -83,15 +87,25 @@ if (isset($_SESSION['id'])) {
                                                 <label class="form-label" for="form2Example27">Password</label>
                                             </div>
 
+                                            <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
+
                                             <div class="pt-1 mb-4">
                                                 <button class="btn btn-dark btn-lg btn-block" type="submit" name="button">Login</button>
                                             </div>
 
-                                            <a class="small text-muted" href="Reset-Password.php">Forgot password?</a>
+                                            <a class="small text-muted" href="reset-password.php">Forgot password?</a>
 
-                                            <p class="mb-5 pb-lg-2" style="color: #19afd4;">Don't have an account?
+                                            <p class="mb-2 pb-lg-2" style="color: #19afd4;">Don't have an account?
                                                 <a href="create-account.php" style="color: #2696ca;">Register here</a>
                                             </p>
+                                            <hr>
+                                            <div class="text-center mb-1">OR</div>
+                                            <div class="d-flex justify-content-center mb-4">
+                                                <a type="button" href="services/google-service.php" class="bg-white border btn-rounded px-4 py-2 text-dark">
+                                                    <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" class="me-2" alt="google" style="width: 24px;">
+                                                    Log In With Google
+                                                </a>
+                                            </div>
 
                                             <a href="#!" class="small text-muted">Terms of use.</a>
 

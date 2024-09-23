@@ -1,5 +1,7 @@
 <?php
+include_once __DIR__ . '/includes/headers.php';
 require_once __DIR__ . '/includes/helper.php';
+include_once __DIR__ . '/includes/csrf_token_helper.php';
 ?>
 <!DOCTYPE html>
 
@@ -46,7 +48,7 @@ require_once __DIR__ . '/includes/helper.php';
 
                                     <div class="card-body p-4 p-lg-5 text-black">
 
-                                        <form method="post" id="signup_form" action="signup_process.php">
+                                        <form method="post" id="signup_form" action="signup-process-action.php">
 
                                             <div class="d-flex justify-content-center">
 
@@ -98,6 +100,8 @@ require_once __DIR__ . '/includes/helper.php';
 
                                             </div>
 
+                                            <?php getCsrfTokenElement(); // Include CSRF token as hidden input ?>
+
                                             <div class="pt-1 mb-4 mt-2">
 
                                                 <button class="btn btn-dark btn-lg btn-block" type="submit" name="signup_btn">SIGNUP</button>
@@ -110,6 +114,14 @@ require_once __DIR__ . '/includes/helper.php';
                                                     SignIn
                                                 </a>
                                             </p>
+                                            <hr>
+                                            <div class="text-center mb-1">OR</div>
+                                            <div class="d-flex justify-content-center mb-4">
+                                                <a type="button" href="services/google-service.php" class="bg-white border btn-rounded px-4 py-2 text-dark">
+                                                    <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" class="me-2" alt="google" style="width: 24px;">
+                                                    Continue With Google
+                                                </a>
+                                            </div>
 
                                         </form>
                                     </div>
