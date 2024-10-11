@@ -293,13 +293,15 @@ if (!isset($_SESSION['id'])) {
                         <h5 class="modal-title" id="staticBackdropLabel">Change Profile Picture</h5>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="Update-Profile-img.php" enctype="multipart/form-data">
+                        <form method="post" action="update-profile-img-action.php" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="formFileSm" class="form-label">Choose Your Profile Image :</label>
 
                                 <input class="form-control form-control-sm" id="formFileSm" type="file" name="image">
-
                             </div>
+
+                            <?php getCsrfTokenElement(); // Include CSRF token as hidden input
+                            ?>
 
                             <button type="submit" class="btn btn-outline-primary btn-sm mt-2" name="posting"><i class="fas fa-cloud-upload-alt"></i>Upload Image</button>
                         </form>
@@ -319,7 +321,7 @@ if (!isset($_SESSION['id'])) {
                         <h5 class="modal-title" id="staticBackdropLabel">Change Password</h5>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="Change-Pass.php">
+                        <form method="post" action="change-password-action.php">
 
                             <label for="inputPassword5" class="form-label">Old Password</label>
                             <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" name="old-password">
@@ -332,6 +334,9 @@ if (!isset($_SESSION['id'])) {
                             <div id="passwordHelpBlock" class="form-text">
                                 Your New password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                             </div>
+
+                            <?php getCsrfTokenElement(); // Include CSRF token as hidden input
+                            ?>
 
                             <button type="submit" class="btn btn-outline-primary btn-sm mt-2" name="change-password"><i class="fas fa-cloud-upload-alt"></i> Change Password</button>
                         </form>
