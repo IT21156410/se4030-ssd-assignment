@@ -15,153 +15,155 @@ if (!isset($_SESSION['id'])) {
 
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
 
-        <title>Title</title>
+    <title>Title</title>
 
-        <link rel="icon" href="assets/images/event_accepted_50px.png" type="image/icon type">
+    <link rel="icon" href="assets/images/event_accepted_50px.png" type="image/icon type">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.rtl.min.css" integrity="sha384-+qdLaIRZfNu4cVPK/PxJJEy0B0f3Ugv8i482AKY7gwXwhaCroABd086ybrVKTa0q" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.rtl.min.css" integrity="sha384-+qdLaIRZfNu4cVPK/PxJJEy0B0f3Ugv8i482AKY7gwXwhaCroABd086ybrVKTa0q" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
 
-        <title>Document</title>
+    <title>Document</title>
 
-        <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
-        <link rel="stylesheet" href="assets/css/profile-page.css">
+    <link rel="stylesheet" href="assets/css/profile-page.css">
 
-        <link rel="stylesheet" href="assets/css/section.css">
+    <link rel="stylesheet" href="assets/css/section.css">
 
-        <link rel="stylesheet" href="assets/css/posting.css">
+    <link rel="stylesheet" href="assets/css/posting.css">
 
-        <link rel="stylesheet" href="assets/css/right_col.css">
+    <link rel="stylesheet" href="assets/css/right_col.css">
 
-        <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-        <link rel="stylesheet" href="notifast/notifast.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    </head>
+    <link rel="stylesheet" href="notifast/notifast.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 
-    <body>
+<body>
 
-        <!-- Nav Bar Design -->
+    <!-- Nav Bar Design -->
 
-        <nav class="navbar">
+    <nav class="navbar">
 
-            <div class="nav-wrapper">
+        <div class="nav-wrapper">
 
-                <img src="assets/images/black_logo.png" class="brand-img">
+            <img src="assets/images/black_logo.png" class="brand-img">
 
-                <div class="nav-items">
+            <div class="nav-items">
 
-                    <i class="icon fas fa-home fa-lg"></i>
+                <i class="icon fas fa-home fa-lg"></i>
 
-                    <i class="icon fas fa-plus-square fa-lg"></i>
+                <i class="icon fas fa-plus-square fa-lg"></i>
 
-                    <i class="icon fas fa-calendar-alt fa-lg"></i>
+                <i class="icon fas fa-calendar-alt fa-lg"></i>
 
-                    <i class="icon fas fa-heart fa-lg"></i>
-
-                </div>
+                <i class="icon fas fa-heart fa-lg"></i>
 
             </div>
 
-        </nav>
+        </div>
 
-        <header class="profile-header">
+    </nav>
 
-            <div class="profile-container">
+    <header class="profile-header">
 
-                <div class="profile">
+        <div class="profile-container">
 
-                    <div class="profile-image">
+            <div class="profile">
 
-                        <img src="<?php echo $_SESSION['img_path'] ?>" alt="profile picture">
+                <div class="profile-image">
 
-                    </div>
+                    <img src="<?php echo $_SESSION['img_path'] ?>" alt="profile picture">
 
-                    <div class="profile-user-settings">
+                </div>
 
-                        <h1 class="profile-user-name"><?php echo $_SESSION['username']; ?></h1>
+                <div class="profile-user-settings">
 
-                        <button class="profile-button profile-edit-button">Edit Profile</button>
+                    <h1 class="profile-user-name"><?php echo $_SESSION['username']; ?></h1>
 
-                        <button class="profile-button profile-settings-btn" aria-label="profile settings" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button class="profile-button profile-edit-button">Edit Profile</button>
 
-                            <i class="icon fas fa-cog"></i>
+                    <button class="profile-button profile-settings-btn" aria-label="profile settings" data-bs-toggle="modal" data-bs-target="#exampleModal">
 
-                        </button>
+                        <i class="icon fas fa-cog"></i>
+
+                    </button>
 
 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-                            <div class="modal-dialog">
+                        <div class="modal-dialog">
 
-                                <div class="modal-content">
+                            <div class="modal-content">
 
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Quick Actions</h5>
-                                    </div>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Quick Actions</h5>
+                                </div>
 
-                                    <div class="modal-body">
-                                        <ul style="list-style: none; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 10px; text-decoration: none;">
-                                            <li>
-                                                <button class="profile-button profile-settings-btn"><i class="icon fas fa-cog"></i></button>
-                                                <a href="edit-profile.php">Profile Edit
-                                                    <a>
-                                            </li>
-                                            <li>
-                                                <button class="profile-button profile-settings-btn"><i class="icon fas fa-calendar-week"></i></i></button>
-                                                <a href="">Post About New Event</a>
-                                            </li>
-                                            <li>
-                                                <button class="profile-button profile-settings-btn"><i class="icon fas fa-pen"></i></i></button>
-                                                <a href="post-uploader.php">Create New Post</a>
-                                            </li>
-                                            <li>
-                                                <button class="profile-button profile-settings-btn"><i class="icon fas fa-video"></i></i></button>
-                                                <a href="">Publish New Short video</a>
-                                            </li>
-                                            <li>
-                                                <button class="profile-button profile-settings-btn"><i class="icon fas fa-sign-out-alt"></i></i></button>
-                                                <a href="logout.php">Log Out</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <div class="modal-body">
+                                    <ul style="list-style: none; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 10px; text-decoration: none;">
+                                        <li>
+                                            <button class="profile-button profile-settings-btn"><i class="icon fas fa-cog"></i></button>
+                                            <a href="edit-profile.php">Profile Edit
+                                                <a>
+                                        </li>
+                                        <li>
+                                            <button class="profile-button profile-settings-btn"><i class="icon fas fa-calendar-week"></i></i></button>
+                                            <a href="">Post About New Event</a>
+                                        </li>
+                                        <li>
+                                            <button class="profile-button profile-settings-btn"><i class="icon fas fa-pen"></i></i></button>
+                                            <a href="post-uploader.php">Create New Post</a>
+                                        </li>
+                                        <li>
+                                            <button class="profile-button profile-settings-btn"><i class="icon fas fa-video"></i></i></button>
+                                            <a href="">Publish New Short video</a>
+                                        </li>
+                                        <li>
+                                            <button class="profile-button profile-settings-btn"><i class="icon fas fa-sign-out-alt"></i></i></button>
+                                            <a href="logout.php">Log Out</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <?php if (isset($_GET['error_message'])) { ?>
+                <?php if (isset($_GET['error_message'])) { ?>
 
-                        <?php
+                    <?php
 
-                        $message = $_GET['error_message'];
+                    // Sanitize the input to prevent XSS
+                    $message = htmlspecialchars($_GET['error_message'], ENT_QUOTES, 'UTF-8');
 
-                        echo "<body onload='notification_function(`Error Message`, `$message`, `#da1857`);'</body>"
+                    echo "<body onload=\"notification_function('Error Message', '$message', '#da1857');\"></body>";
 
-                        ?>
+                    ?>
 
-                    <?php } ?>
+                <?php } ?>
 
-                    <?php if (isset($_GET['success_message'])) { ?>
+                <?php if (isset($_GET['success_message'])) { ?>
 
-                        <?php
+                    <?php
 
-                        $message = $_GET['success_message'];
+                    // Sanitize the input to prevent XSS
+                    $message = htmlspecialchars($_GET['success_message'], ENT_QUOTES, 'UTF-8');
 
-                        echo "<body onload='notification_function(`Success Message`, `$message`, `#0F73FA`);'</body>"
+                    echo "<body onload=\"notification_function('Success Message', '$message', '#0F73FA');\"></body>";
 
-                        ?>
+                    ?>
 
-                    <?php } ?>
+                <?php } ?>
 
-                    <!--<div class="popup" id="popup">
+                <!--<div class="popup" id="popup">
 
                         <div class="popup-window">
 
@@ -172,91 +174,91 @@ if (!isset($_SESSION['id'])) {
 
                     </div>-->
 
-                    <div class="profile-status">
+                <div class="profile-status">
 
-                        <ul>
-                            <li><span class="profile-status-count"><?php echo $_SESSION['fallowers'] ?></span> Posts</li>
+                    <ul>
+                        <li><span class="profile-status-count"><?php echo $_SESSION['fallowers'] ?></span> Posts</li>
 
-                            <li><span class="profile-status-count"><?php echo $_SESSION['fallowing'] ?></span> Fallowing</li>
+                        <li><span class="profile-status-count"><?php echo $_SESSION['fallowing'] ?></span> Fallowing</li>
 
-                            <li><span class="profile-status-count"><?php echo $_SESSION['fallowers'] ?></span> Followers</li>
+                        <li><span class="profile-status-count"><?php echo $_SESSION['fallowers'] ?></span> Followers</li>
 
-                        </ul>
+                    </ul>
 
-                    </div>
+                </div>
 
-                    <div class="social">
+                <div class="social">
 
-                        <ul>
-                            <li><i class="fas fa-envelope fa-lg"></i><?php echo " " . $_SESSION['email'] ?></li>
+                    <ul>
+                        <li><i class="fas fa-envelope fa-lg"></i><?php echo " " . $_SESSION['email'] ?></li>
 
-                            <li><i class="fab fa-facebook-square fa-lg"></i><?php echo " " . $_SESSION['facebook'] ?></li>
+                        <li><i class="fab fa-facebook-square fa-lg"></i><?php echo " " . $_SESSION['facebook'] ?></li>
 
-                            <li><i class="fab fa-whatsapp-square fa-lg"></i><?php echo " " . $_SESSION['whatsapp'] ?></li>
+                        <li><i class="fab fa-whatsapp-square fa-lg"></i><?php echo " " . $_SESSION['whatsapp'] ?></li>
 
-                            <i class="fad fa-campfire"></i>
+                        <i class="fad fa-campfire"></i>
 
-                        </ul>
+                    </ul>
 
-                    </div>
+                </div>
 
-                    <div class="profile-bio">
+                <div class="profile-bio">
 
-                        <p><span class="profile-real-name"><?php echo $_SESSION['fullname'] ?></span> <?php echo " " . $_SESSION['bio'] ?> </p>
-
-                    </div>
+                    <p><span class="profile-real-name"><?php echo $_SESSION['fullname'] ?></span> <?php echo " " . $_SESSION['bio'] ?> </p>
 
                 </div>
 
             </div>
 
-        </header>
+        </div>
 
-        <!-- design photo gallery -->
+    </header>
 
-        <main>
+    <!-- design photo gallery -->
 
-            <div class="profile-container">
+    <main>
 
-                <div class="gallery">
+        <div class="profile-container">
 
-                    <?php include("get-posts-action.php"); ?>
+            <div class="gallery">
 
-                    <!--loop over the results-->
+                <?php include("get-posts-action.php"); ?>
 
-                    <?php foreach ($posts as $post) { ?>
+                <!--loop over the results-->
 
-                        <div class="gallery-items">
+                <?php foreach ($posts as $post) { ?>
 
-                            <img src="<?php echo "./assets/images/posts/" . $post['Img_Path']; ?>" alt="post" class="gallery-img">
+                    <div class="gallery-items">
 
-                            <div class="gallery-item-info">
+                        <img src="<?php echo "./assets/images/posts/" . $post['Img_Path']; ?>" alt="post" class="gallery-img">
 
-                                <ul>
+                        <div class="gallery-item-info">
 
-                                    <li class="gallery-items-likes"><span class="hide-gallery-elements">Reactions : <?php echo $post['Likes']; ?></span>
+                            <ul>
 
-                                        <i class="icon fas fa-thumbs-up"></i>
+                                <li class="gallery-items-likes"><span class="hide-gallery-elements">Reactions : <?php echo $post['Likes']; ?></span>
 
-                                    </li>
-                                    <br>
+                                    <i class="icon fas fa-thumbs-up"></i>
 
-                                </ul>
+                                </li>
+                                <br>
 
-                            </div>
+                            </ul>
 
                         </div>
 
-                    <?php } ?>
+                    </div>
 
-                </div>
+                <?php } ?>
 
-        </main>
+            </div>
 
-    </body>
+    </main>
 
-    <script src="notifast/notifast.min.js"></script>
+</body>
 
-    <script src="notifast/function.js"></script>
+<script src="notifast/notifast.min.js"></script>
+
+<script src="notifast/function.js"></script>
 
 </html>
