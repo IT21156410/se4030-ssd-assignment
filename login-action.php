@@ -1,17 +1,17 @@
 <?php
 include_once __DIR__ . '/includes/csrf_token_helper.php';
 
-// Set secure session cookie parameters
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'domain' => '',
-    'secure' => isset($_SERVER['HTTPS']),
-    'httponly' => true,
-    'samesite' => 'Strict'
-]);
 
 if (session_status() === PHP_SESSION_NONE) {
+    // Set secure session cookie parameters
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => '',
+        'secure' => isset($_SERVER['HTTPS']),
+        'httponly' => true,
+        'samesite' => 'Strict'
+    ]);
     session_start();
 }
 
