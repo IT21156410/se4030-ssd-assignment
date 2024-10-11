@@ -306,7 +306,7 @@ include_once __DIR__ . '/includes/csrf_token_helper.php';
                                             $new_string = mb_strimwidth($sanitized_caption, 0, 200, "....<br><a href='$vid_data'> Read More</a>");
                                             ?>
 
-                                            style="text-transform: capitalize; font-weight: bold; font-size: 13px;"><?php echo $new_string ?></p>
+                                            style="text-transform: capitalize; font-weight: bold; font-size: 13px;"><?php echo htmlspecialchars($new_string, ENT_QUOTES, 'UTF-8'); ?></p>
 
                                     </div>
 
