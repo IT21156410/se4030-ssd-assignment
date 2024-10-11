@@ -22,10 +22,10 @@ function Update_Comment($post_id, $post_comment, $comment_id)
 {
     include 'config.php';
 
-    $SQL = "UPDATE comments SET COMMENT = '$post_comment' WHERE COMMENT_ID = ?;";
+    $SQL = "UPDATE comments SET COMMENT = ? WHERE COMMENT_ID = ?;";
 
     $stmt = $conn->prepare($SQL);
-    $stmt->bind_param("i", $comment_id);
+    $stmt->bind_param("si", $post_comment, $comment_id);
 
     if ($stmt->execute()) {
         $send = "single-post.php?post_id={$post_id}&success_message=Current Opinion Updated Successfully";
